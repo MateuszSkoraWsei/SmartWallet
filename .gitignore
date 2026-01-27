@@ -1,0 +1,36 @@
+## Visual Studio
+.vs/
+[Bb]in/
+[Obj]/
+*.user
+*.userosscache
+*.sln.docstates
+
+## .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+out/
+
+## User Secrets (Bardzo ważne!)
+# Jeśli używasz User Secrets do haseł bazy, to zabezpieczenie
+secrets.json
+
+## AppSettings Local
+# Pozwala na posiadanie lokalnych ustawień bazy, których nie wypchniesz na GitHuba
+appsettings.Development.json
+
+## Databases
+# Jeśli używasz LocalDB (.mdf), te pliki nie powinny być w repozytorium
+*.mdf
+*.ldf
+
+## Node.js (jeśli będziesz używać do frontendowych bibliotek)
+node_modules/
+
+## Logs
+*.log
+
+## OS Files
+.DS_Store
+Thumbs.db
