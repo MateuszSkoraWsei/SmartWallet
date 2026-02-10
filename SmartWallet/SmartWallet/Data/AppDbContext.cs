@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace SmartWallet.Data
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<Models.ApplicationUser>
     {
         public DbSet<Models.ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Models.Category> Categories { get; set; }

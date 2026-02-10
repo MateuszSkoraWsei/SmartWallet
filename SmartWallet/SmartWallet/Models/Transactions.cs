@@ -1,7 +1,10 @@
-﻿namespace SmartWallet.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace SmartWallet.Models
 {
     public class Transactions
     {
+        [Key]
         public int TransactionID { get; set; }
         public string AccountNumber { get; set; }
 
