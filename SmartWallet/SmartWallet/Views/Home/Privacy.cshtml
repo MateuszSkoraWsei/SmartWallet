@@ -1,6 +1,59 @@
-﻿@{
-    ViewData["Title"] = "Privacy Policy";
+﻿@model dynamic
+@{
+    ViewData["Title"] = "Polityka Prywatności";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-body p-5">
+            <h1 class="text-primary mb-4"><i class="bi bi-shield-lock"></i> @ViewData["Title"]</h1>
+
+            <div class="alert alert-warning border-start border-4">
+                <h4 class="alert-heading font-weight-bold">⚠️ WAŻNE OSTRZEŻENIE</h4>
+                <p class="mb-0">
+                    SmartWallet jest aplikacją stworzoną wyłącznie w <strong>celach edukacyjnych i rozwojowych</strong>.
+                    Nie jest to prawdziwy system bankowy ani platforma płatnicza.
+                </p>
+            </div>
+
+            <section class="mt-4">
+                <h5>1. Bezpieczeństwo danych</h5>
+                <p>
+                    Prosimy o <strong>niepodawanie prawdziwych danych osobowych</strong>, takich jak:
+                </p>
+                <ul>
+                    <li>Prawdziwe numery kont bankowych</li>
+                    <li>Hasła używane w innych serwisach</li>
+                    <li>Prawdziwe adresy zamieszkania czy numery PESEL</li>
+                </ul>
+                <p class="text-muted">
+                    Dane są przechowywane w lokalnej bazie danych dewelopera i mogą zostać usunięte w dowolnym momencie w ramach testów aplikacji.
+                </p>
+            </section>
+
+            <hr />
+
+            <section>
+                <h5>2. Cel aplikacji</h5>
+                <p>
+                    Projekt ma na celu naukę technologii ASP.NET Core, Entity Framework oraz obsługi systemu Identity.
+                    Wszelkie "wirtualne pieniądze" (Balance) widoczne w aplikacji nie mają żadnej wartości rzeczywistej.
+                </p>
+            </section>
+
+            <section class="mt-4">
+                <h5>3. Pliki Cookies</h5>
+                <p>
+                    Aplikacja używa niezbędnych plików cookies do obsługi sesji logowania (ASP.NET Core Identity).
+                    Służą one jedynie do rozpoznania zalogowanego użytkownika i zapewnienia poprawnego działania mechanizmów bezpieczeństwa.
+                </p>
+            </section>
+
+            <div class="mt-5 p-3 bg-light text-center rounded">
+                <p class="mb-0 text-secondary italic">
+                    SmartWallet &copy; @DateTime.Now.Year - Rozwijaj się z kodem!
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

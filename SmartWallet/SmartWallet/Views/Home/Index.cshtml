@@ -2,7 +2,54 @@
     
 }
 
-<div class="text-center">
-    <h1>Witaj na stronie SmartWallet</h1>
-    <ht>Twój cyfrowy portfel</ht>
-</div>
+
+
+
+<header class="py-5 bg-light border-bottom shadow-sm">
+    <div class="container px-5">
+        <div class="row gx-5 align-items-center justify-content-center">
+            <div class="col-lg-8 col-xl-7 col-xxl-6">
+                <div class="my-5 text-center text-xl-start">
+                    <h1 class="display-5 fw-bolder text-dark mb-2">Przyszłość Twoich finansów zaczyna się tutaj</h1>
+                    <p class="lead fw-normal text-muted mb-4">SmartWallet to prosta, bezpieczna i intuicyjna aplikacja do zarządzania Twoim domowym budżetem. Przelewy, historia i statystyki w jednym miejscu.</p>
+                    <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xl-start">
+                        <a class="btn btn-primary btn-lg px-4 me-sm-3 fw-bold" asp-controller="Account" asp-action="Register">Załóż konto</a>
+                        <a class="btn btn-primary btn-lg px-4 me-sm-3 fw-bold" asp-controller="Account" asp-action="Login">Zaloguj się</a>
+                       
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-5 col-xxl-6 d-none d-xl-block text-center">
+                <i class="bi bi-wallet2 text-primary" style="font-size: 15rem;"></i>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section class="py-5" id="features">
+    <div class="container px-5 my-5">
+        <div class="row gx-5">
+            <div class="col-lg-4 mb-5 mb-lg-0 text-center">
+                <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3 p-3 d-inline-block">
+                    <i class="bi bi-shield-check fs-2"></i>
+                </div>
+                <h2 class="h4 fw-bolder">Bezpieczeństwo</h2>
+                <p>Używamy najnowszych standardów ASP.NET Identity, aby Twoje hasła i dane były zawsze chronione.</p>
+            </div>
+            <div class="col-lg-4 mb-5 mb-lg-0 text-center">
+                <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3 p-3 d-inline-block">
+                    <i class="bi bi-lightning-charge fs-2"></i>
+                </div>
+                <h2 class="h4 fw-bolder">Szybkość</h2>
+                <p>Wirtualne przelewy między użytkownikami SmartWallet odbywają się w czasie rzeczywistym.</p>
+            </div>
+            <div class="col-lg-4 text-center">
+                <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3 p-3 d-inline-block">
+                    <i class="bi bi-graph-up fs-2"></i>
+                </div>
+                <h2 class="h4 fw-bolder">Analiza</h2>
+                <p>Kategoryzuj swoje wydatki i sprawdzaj, na co wydajesz najwięcej pieniędzy każdego miesiąca.</p>
+            </div>
+        </div>
+    </div>
+</section>

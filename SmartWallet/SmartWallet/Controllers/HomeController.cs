@@ -16,6 +16,14 @@ namespace SmartWallet.Controllers
 
         public IActionResult Index()
         {
+            if(User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("UserPage", "Home");
+            }
+            return View();
+        }
+        public IActionResult UserPage()
+        {
             return View();
         }
 
