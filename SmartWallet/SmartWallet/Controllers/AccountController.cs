@@ -34,7 +34,7 @@ namespace SmartWallet.Controllers
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (!ModelState.IsValid) return View(model);
-            var user = new ApplicationUser { UserName = model.Email, AccountNumber = "00000001", Balance = 0, Email = model.Email, FullName = model.FullName };
+            var user = new ApplicationUser { UserName = model.Email, AccountNumber = GenerateAccountNumber(), Balance = 0, Email = model.Email, FullName = model.FullName };
             var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
@@ -43,6 +43,11 @@ namespace SmartWallet.Controllers
             }
             foreach (var error in result.Errors) ModelState.AddModelError(string.Empty, error.Description);
             return View(model);
+        }
+        private string GenerateAccountNumber()
+        {
+           
+            return Guid.NewGuid().ToString("N").Substring(0, 8);
         }
 
         [HttpPost]
@@ -55,5 +60,6 @@ namespace SmartWallet.Controllers
             ModelState.AddModelError(string.Empty, "Błędny login lub hasło");
             return View(model);
         }
+        
     }
 }

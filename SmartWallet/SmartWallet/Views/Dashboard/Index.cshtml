@@ -1,0 +1,17 @@
+﻿@model SmartWallet.Models.DashboardViewModel
+@{
+    ViewData["Title"] = "Mój Portfel";
+    Layout = "_DashboardLayout";
+    
+}
+
+@if (Model == null)
+{
+    <div class="alert alert-danger">Błąd: Model nie dotarł do widoku!</div>
+}
+else
+{
+    <h1>To jest testowy tekst użytkownika</h1>
+    <p>Witaj @Model.FullName</p>
+    <p>Balans: @Model.Balance.ToString("C")</p>
+}

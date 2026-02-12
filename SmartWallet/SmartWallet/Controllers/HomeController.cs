@@ -18,11 +18,11 @@ namespace SmartWallet.Controllers
         {
             if(User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("UserPage", "Home");
+                return RedirectToAction("Index", "Dashboard");
             }
             return View();
         }
-        public IActionResult UserPage()
+        public IActionResult Dashboard()
         {
             return View();
         }
