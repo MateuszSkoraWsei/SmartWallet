@@ -11,7 +11,120 @@
 }
 else
 {
-    <h1>To jest testowy tekst użytkownika</h1>
-    <p>Witaj @Model.FullName</p>
-    <p>Balans: @Model.Balance.ToString("C")</p>
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm h-100 rounded-4 bg-primary text-white">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <p class="text-white-50 mb-1 fw-medium">Dostępne środki</p>
+                            <h2 class="fw-bold mb-0">@Model.Balance.ToString("C")</h2>
+                        </div>
+                        <div class="bg-white bg-opacity-25 rounded-circle p-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                            <i class="bi bi-wallet2 fs-3 text-white"></i>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <span class="badge bg-white bg-opacity-25 rounded-pill px-3 py-2 text-white">
+                            <i class="bi bi-arrow-up-short"></i> +2.4% od zeszłego m-ca
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm h-100 rounded-4">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <p class="text-muted mb-1 fw-medium">Numer konta</p>
+                            <h4 class="fw-bold mb-0 font-monospace" id="HiddenAccountNumber">******</h4>
+                            <h4 class="fw-bold mb-0 font-monospace" id="AccountNumber">@Model.AccountNumber</h4><span id="icon"><i class="bi bi-eye"></i></span>
+                        </div>
+                        <div class="bg-light rounded-circle p-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                            <i class="bi bi-credit-card fs-3 text-primary"></i>
+                        </div>
+                    </div>
+                    <button class="btn btn-link text-decoration-none p-0 mt-3 text-primary fw-bold" onclick="copyToClipboard('@Model.AccountNumber')">
+                        <i class="bi bi-copy me-1"></i> Skopiuj numer
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm h-100 rounded-4 border-start border-success border-4">
+                <div class="card-body p-4 d-flex flex-column justify-content-center align-items-center">
+                    <a asp-controller="Transactions" asp-action="Create" class="btn btn-success btn-lg rounded-pill px-5 shadow-sm mb-2">
+                        <i class="bi bi-plus-lg me-2"></i> Nowy Przelew
+                    </a>
+                    <small class="text-muted">Wyślij środki natychmiastowo</small>
+                </div>
+            </div>
+        </div>
+        <div class="card border-0 shadow-sm rounded-4 mt-2">
+            <div class="card-header bg-white border-0 py-4 px-4 d-flex justify-content-between align-items-center">
+                <h5 class="fw-bold mb-0">Ostatnie aktywności</h5>
+                <a asp-controller="Transactions" asp-action="Index" class="btn btn-sm btn-outline-primary rounded-pill px-3">Zobacz wszystko</a>
+            </div>
+            <div class="card-body p-0">
+                <div class="list-group list-group-flush">
+                    @if (Model.RecentTransactions != null && Model.RecentTransactions.Any())
+                    {
+                        @foreach (var t in Model.RecentTransactions)
+                        {
+                            <div class="list-group-item p-4 border-0 border-bottom d-flex align-items-center justify-content-between">
+                                <div class="d-flex align-items-center">
+                                    <div class="rounded-circle p-3 me-3 @(t.Amount < 0 ? "bg-danger-subtle text-danger" : "bg-success-subtle text-success")">
+                                        <i class="bi @(t.Amount < 0 ? "bi-arrow-down-left" : "bi-arrow-up-right") fs-5"></i>
+                                    </div>
+                                    <div>
+                                       
+                                        <small class="text-muted">@t.Date.ToString("dd MMM yyyy, HH:mm")</small>
+                                    </div>
+                                </div>
+                                <div class="text-end">
+                                    <h6 class="mb-0 fw-bold @(t.Amount < 0 ? "text-danger" : "text-success")">
+                                        @(t.Amount < 0 ? "" : "+") @t.Amount.ToString("C")
+                                    </h6>
+                                    <span class="badge bg-light text-dark rounded-pill">Bank Transfer</span>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="p-5 text-center">
+                            <i class="bi bi-inbox fs-1 text-muted"></i>
+                            <p class="text-muted mt-2">Brak transakcji do wyświetlenia.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const icon = document.getElementById("icon");
+        const accountNumber = document.getElementById("AccountNumber");
+        const hiddenAccountNumber = document.getElementById("HiddenAccountNumber");
+        let isHidden = true;
+                accountNumber.style.display = "none";
+
+        icon.addEventListener("click", ()=>{
+            if(isHidden){
+                accountNumber.style.display = "none";
+                hiddenAccountNumber.style.display = "inline";
+                isHidden = false;
+            }
+            else{
+                accountNumber.style.display = "inline";
+                hiddenAccountNumber.style.display = "none";
+                isHidden = true;
+            }
+        })
+        
+
+    </script>
 }
