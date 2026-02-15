@@ -1,0 +1,56 @@
+﻿@model List<Transactions>
+
+@{
+    ViewData["Title"] = "Moje Transakcje";
+    Layout = "_DashboardLayout";
+}
+
+<div class="container py-5">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h2 class="fw-bold">Moje Transakcje</h2>
+        </div>
+        <div class="col-md-4 text-end">
+            <a asp-action="CreateTransaction" class="btn btn-primary rounded-pill">
+                <i class="bi bi-plus"></i> Nowy Przelew
+            </a>
+        </div>
+    </div>
+
+    @if (Model != null && Model.Count > 0)
+    {
+        <div class="card border-0 shadow-sm">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="fw-bold">Data</th>
+                            <th class="fw-bold">Tytuł</th>
+                            <th class="fw-bold">Kwota</th>
+                            <th class="fw-bold">Typ</th>
+                            <th class="fw-bold">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var transaction in Model)
+                        {
+                            <tr>
+                                <td>@transaction.Date.ToString("dd.MM.yyyy HH:mm")</td>
+                                <td>@transaction.TransactionName</td>
+                                <td class="fw-bold">@transaction.Amount.ToString("0.00") zł</td>
+                                <td>@transaction.AccountNumber</td>
+                                <td><span class="badge bg-success">Wykonana</span></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info" role="alert">
+            <i class="bi bi-info-circle"></i> Brak transakcji. <a asp-action="CreateTransaction">Utwórz pierwszą transakcję</a>
+        </div>
+    }
+</div>

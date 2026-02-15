@@ -34,7 +34,7 @@ namespace SmartWallet.Controllers
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (!ModelState.IsValid) return View(model);
-            var user = new ApplicationUser { UserName = model.Email, AccountNumber = GenerateAccountNumber(), Balance = 0, Email = model.Email, FullName = model.FullName };
+            var user = new ApplicationUser { UserName = model.Email, AccountNumber = GenerateAccountNumber(), Balance = 1000, Email = model.Email, FullName = model.FullName };
             var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
