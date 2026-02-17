@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using SmartWallet.Data;
 using SmartWallet.Models;
 using SmartWallet.Views;
 using System.Threading.Tasks;
@@ -10,11 +11,13 @@ namespace SmartWallet.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly AppDbContext _context; 
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager , AppDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _context = context;
         }
 
         [HttpGet]
@@ -34,7 +37,8 @@ namespace SmartWallet.Controllers
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (!ModelState.IsValid) return View(model);
-            var user = new ApplicationUser { UserName = model.Email, AccountNumber = GenerateAccountNumber(), Balance = 1000, Email = model.Email, FullName = model.FullName };
+            int userCount = _context.Users.Count();
+            var user = new ApplicationUser { UserName = model.Email, AccountNumber = GenerateAccountNumber(userCount + 1), Balance = 1000, Email = model.Email, FullName = model.FullName };
             var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
@@ -44,10 +48,13 @@ namespace SmartWallet.Controllers
             foreach (var error in result.Errors) ModelState.AddModelError(string.Empty, error.Description);
             return View(model);
         }
-        private string GenerateAccountNumber()
+        private string GenerateAccountNumber(int UserNumber)
         {
-           
-            return Guid.NewGuid().ToString("N").Substring(0, 8);
+            string BankCode = "45";
+            string data = DateTime.Now.ToString("yyyyMMdd");
+            string IdPart = UserNumber.ToString("D4");
+
+            return $"{BankCode}{data}{IdPart}";
         }
 
         [HttpPost]

@@ -11,7 +11,7 @@
             <h2 class="fw-bold">Moje Transakcje</h2>
         </div>
         <div class="col-md-4 text-end">
-            <a asp-action="CreateTransaction" class="btn btn-primary rounded-pill">
+            <a asp-controller="Transaction" asp-action="Create"  class="btn btn-primary rounded-pill">
                 <i class="bi bi-plus"></i> Nowy Przelew
             </a>
         </div>
@@ -50,7 +50,7 @@
     else
     {
         <div class="alert alert-info" role="alert">
-            <i class="bi bi-info-circle"></i> Brak transakcji. <a asp-action="CreateTransaction">Utwórz pierwszą transakcję</a>
+            <i class="bi bi-info-circle"></i> Brak transakcji. <a asp-controller="Transaction" asp-action="Create">Utwórz pierwszą transakcję</a>
         </div>
     }
 </div>

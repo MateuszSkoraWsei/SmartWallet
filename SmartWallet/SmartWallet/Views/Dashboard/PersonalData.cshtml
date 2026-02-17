@@ -1,0 +1,59 @@
+﻿@model SmartWallet.Models.ApplicationUser
+
+@{
+    ViewData["Title"] = "Mój Profil";
+    Layout = "_DashboardLayout";
+}
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-4 mb-4">
+            <div class="card border-0 shadow-sm rounded-4 text-center p-4">
+                <div class="card-body">
+                    <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 80px; height: 80px;">
+                        <i class="bi bi-person-fill fs-1"></i>
+                    </div>
+                    <h4 class="fw-bold mb-1">@Model.FirstName @Model.LastName</h4>
+                    <p class="text-muted small">@Model.Email</p>
+                    <hr>
+                    <div class="text-start">
+                        <p class="small text-muted mb-1 text-uppercase">Twój Numer Konta</p>
+                        <p class="fw-bold font-monospace mb-0">@Model.AccountNumber</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm rounded-4 p-4">
+                <div class="card-body">
+                    <h5 class="fw-bold mb-4">Dane użytkownika</h5>
+                    <form asp-action="UpdateProfile" method="post">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold text-muted">IMIĘ</label>
+                                <input asp-for="FirstName" class="form-control bg-light border-0 shadow-none p-3 rounded-3" readonly />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold text-muted">NAZWISKO</label>
+                                <input asp-for="LastName" class="form-control bg-light border-0 shadow-none p-3 rounded-3" readonly />
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label small fw-bold text-muted">NUMER TELEFONU</label>
+                                <input asp-for="PhoneNumber" class="form-control bg-light border-0 shadow-none p-3 rounded-3" placeholder="+48 000 000 000" />
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label small fw-bold text-muted">ADRES E-MAIL</label>
+                                <input asp-for="Email" class="form-control bg-light border-0 shadow-none p-3 rounded-3" readonly />
+                                <small class="text-muted">Adresu e-mail nie można zmienić samodzielnie.</small>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-2">
+                            <button type="submit" class="btn btn-primary rounded-pill px-5 py-3 shadow-sm">Zapisz zmiany</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

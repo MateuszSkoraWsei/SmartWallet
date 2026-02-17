@@ -1,0 +1,58 @@
+﻿@model SmartWallet.Models.ViewModels.BalanceViewModel
+
+@{
+    ViewData["Title"] = "Stan Konta";
+    Layout = "_DashboardLayout";
+}
+
+<div class="container py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="fw-bold">Twoje Finanse</h2>
+            <p class="text-muted">Podsumowanie dostępnych środków i aktywności.</p>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <div class="card border-0 shadow-lg rounded-4 bg-gradient bg-primary text-white p-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-uppercase opacity-75 small fw-bold mb-2">Dostępne środki</h6>
+                            <h1 class="display-4 fw-bold mb-0">@Model.TotalBalance.ToString("C")</h1>
+                        </div>
+                        <i class="bi bi-bank fs-1 opacity-50"></i>
+                    </div>
+                    <hr class="my-4 opacity-25">
+                    <div class="row text-center">
+                        <div class="col-6 border-end border-white border-opacity-25">
+                            <p class="small mb-0 opacity-75">Wpływy (30 dni)</p>
+                            <h4 class="fw-bold">@Model.MonthlyIncomes.ToString("C")</h4>
+                        </div>
+                        <div class="col-6">
+                            <p class="small mb-0 opacity-75">Wydatki (30 dni)</p>
+                            <h4 class="fw-bold text-warning">@Model.MonthlyExpenses.ToString("C")</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 h-100 p-3">
+                <div class="card-body">
+                    <h6 class="fw-bold mb-3">Informacje o koncie</h6>
+                    <div class="mb-3">
+                        <small class="text-muted d-block">Typ konta</small>
+                        <span class="badge bg-success-subtle text-success rounded-pill">Konto Osobiste Premium</span>
+                    </div>
+                    <div>
+                        <small class="text-muted d-block">Numer konta</small>
+                        <code class="text-dark fw-bold fs-5">@Model.AccountNumber</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
