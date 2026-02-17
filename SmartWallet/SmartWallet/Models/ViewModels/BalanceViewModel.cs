@@ -3,6 +3,7 @@
     public class BalanceViewModel
     {
         public decimal TotalBalance { get; set; }
+        
         public decimal MonthlyIncomes { get; set; }
 
         public decimal MonthlyExpenses { get; set; }

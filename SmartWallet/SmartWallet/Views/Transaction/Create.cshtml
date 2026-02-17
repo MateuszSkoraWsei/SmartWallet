@@ -1,3 +1,4 @@
+@using SmartWallet.Models.ViewModels
 @model CreateTransactionViewModel
 
 @{
@@ -13,7 +14,9 @@
                     <h4 class="text-white fw-bold mb-0">Nowy Przelew</h4>
                 </div>
                 <div class="card-body p-4 p-md-5">
-                    <form asp-action="Create" method="post">
+                    <form asp-controller="Transaction" asp-action="Create" method="post">
+                        @Html.AntiForgeryToken()
+                        <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
                         <div class="mb-4">
                             <label asp-for="AccountNumber" class="form-label text-muted small fw-bold">NUMER KONTA ODBIORCY</label>
                             <div class="input-group">
@@ -45,7 +48,7 @@
                             <button type="submit" class="btn btn-primary btn-lg rounded-pill shadow-sm py-3">
                                 Wyślij pieniądze
                             </button>
-                            <a asp-controller="Transaction" asp-action="Create" class="btn btn-link text-muted mt-2 text-decoration-none">Anuluj</a>
+                            <a asp-controller="Transaction" asp-action="Index" class="btn btn-link text-muted mt-2 text-decoration-none">Anuluj</a>
                         </div>
                     </form>
                 </div>

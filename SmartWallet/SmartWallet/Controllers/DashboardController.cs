@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SmartWallet.Data;
 using SmartWallet.Models;
+using SmartWallet.Models.ViewModels;
 using System.Net.Mail;
 
 namespace SmartWallet.Controllers
@@ -39,6 +40,11 @@ namespace SmartWallet.Controllers
 
             return View(viewModel);
         }
+        public IActionResult PersonalData()
+        {
+            return View();
+        }
+
 
        
 

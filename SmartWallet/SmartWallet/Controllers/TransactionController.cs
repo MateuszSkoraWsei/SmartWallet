@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SmartWallet.Models;
 using SmartWallet.Data;
+using SmartWallet.Models.ViewModels;
 
 namespace SmartWallet.Controllers
 {
@@ -51,7 +52,12 @@ namespace SmartWallet.Controllers
                     ModelState.AddModelError(string.Empty, "Nie znaleziono odbiorcy o podanym numerze konta.");
                     return View(vm);
                 }
-                sender.Balance -= vm.Amount;
+                else if (receiver.AccountNumber == sender.AccountNumber)
+                {
+                    ModelState.AddModelError(string.Empty, "Nie Można robić przelewów na swój numer konta");
+                    return View(vm);
+                }
+                    sender.Balance -= vm.Amount;
                 receiver.Balance += vm.Amount;
 
                 var transaction = new Transactions
