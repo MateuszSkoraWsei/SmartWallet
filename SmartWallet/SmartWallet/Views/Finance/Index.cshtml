@@ -54,5 +54,60 @@
                 </div>
             </div>
         </div>
+        <div class="card border-0 shadow-sm rounded-4 p-4">
+            <h5 class="fw-bold mb-4">Struktura wydatków</h5>
+            <canvas id="expensesChart" style="max-height: 300px;"></canvas>
+        </div>
     </div>
 </div>
+@section Scripts {
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // 1. Pobieranie danych z Twojego API
+            fetch('/Finance/GetCategoryCharts')
+            .then(response => response.json())
+            .then(data => {
+                const ctx = document.getElementById('expensesChart').getContext('2d');
+
+                // 2. Mapowanie kolorów (z klas CSS na kody Hex dla wykresu)
+                const colorMap = {
+                    'text-danger': '#dc3545',   // Rachunki
+                    'text-success': '#198754',  // Jedzenie
+                    'text-warning': '#ffc107',  // Rozrywka
+                    'text-info': '#0dcaf0',     // Transport
+                    'text-secondary': '#6c757d' // Inne
+                };
+
+                // 3. Inicjalizacja wykresu
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: data.map(x => x.categoryName),
+                        datasets: [{
+                            label: 'Suma wydatków',
+                            data: data.map(x => x.totalAmount),
+                            backgroundColor: data.map(x => colorMap[x.color] || '#cbd5e0'),
+                            hoverOffset: 15,
+                            borderWidth: 2,
+                            borderColor: '#ffffff'
+                        }]
+                    },
+                    options: {
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    padding: 20,
+                                    usePointStyle: true
+                                }
+                            }
+                        },
+                        cutout: '70%' // To robi efekt "pączka" (cienki pierścień)
+                    }
+                });
+            })
+            .catch(error => console.error('Błąd pobierania danych:', error));
+    });
+</script>
+}

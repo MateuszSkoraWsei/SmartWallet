@@ -5,6 +5,22 @@
     ViewData["Title"] = "Wyślij Przelew";
     Layout = "_DashboardLayout";
 }
+<style>
+   
+    .form-select {
+        border-radius: 0 12px 12px 0;
+        cursor: pointer;
+    }
+
+        .form-select:focus {
+            background-color: #fff;
+            border-color: #0d6efd;
+        }
+    
+    option:hover {
+        background-color: #f8f9fa;
+    }
+</style>
 
 <div class="container py-5">
     <div class="row justify-content-center">
@@ -33,7 +49,21 @@
                             <label asp-for="Description" class="form-label text-muted small fw-bold">OPIS PRZELEWU</label>
                             <textarea asp-for="Description"  type="text" class="form-control bg-light border-0 shadow-none" ></textarea>
                         </div>
-
+                        <div class="mb-4">
+                            <label asp-for="CategoryID" class="form-label text-muted small fw-bold">Kategoria</label>
+                            <select asp-for="CategoryID" class="form-select bg-light border-0 shadow-none p-3" required>
+                                <option value="" disabled selected>Wybierz kategorię...</option>
+                                @if (ViewBag.Categories != null)
+                                {
+                                    foreach (var category in (List<Category>)ViewBag.Categories)
+                                    {
+                                        <option value="@category.CategoryID">
+                                            @category.CategoryName
+                                        </option>
+                                    }
+                                }
+                            </select>
+                        </div>
                         <div class="row mb-4">
                             <div class="col-12">
                                 <label asp-for="Amount" class="form-label text-muted small fw-bold">KWOTA (PLN)</label>

@@ -17,5 +17,9 @@ namespace SmartWallet.Models.ViewModels
 
         [Display(Name = "Opis Transakcji")]
         public string Description { get; set; }
+
+        [Required(ErrorMessage = "Wybierz kategorię.")]
+        [Display(Name = "Kategoria")]
+        public int CategoryID { get; set; }
     }
 }

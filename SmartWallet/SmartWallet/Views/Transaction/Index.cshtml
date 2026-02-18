@@ -4,6 +4,34 @@
     ViewData["Title"] = "Moje Transakcje";
     Layout = "_DashboardLayout";
 }
+<style>
+    /* Subtelna animacja dla rozwijanych wierszy */
+    .tr-main {
+        transition: all 0.2s ease;
+        border-left: 4px solid transparent;
+    }
+
+        .tr-main:hover {
+            background-color: #f8f9fa !important;
+            border-left: 4px solid #0d6efd;
+            cursor: pointer;
+        }
+
+    .detail-card {
+        border-radius: 0 0 12px 12px;
+    }
+
+    .font-monospace {
+        font-size: 0.85rem;
+        letter-spacing: 0.5px;
+    }
+
+    .info-label {
+        font-size: 0.7rem;
+        letter-spacing: 1px;
+        color: #6c757d;
+    }
+</style>
 
 <div class="container py-5">
     <div class="row mb-4">
@@ -34,12 +62,76 @@
                     <tbody>
                         @foreach (var transaction in Model)
                         {
-                            <tr>
-                                <td>@transaction.Date.ToString("dd.MM.yyyy HH:mm")</td>
-                                <td>@transaction.TransactionName</td>
-                                <td class="fw-bold">@transaction.Amount.ToString("0.00") zł</td>
-                                <td>@transaction.AccountNumber</td>
-                                <td><span class="badge bg-success">Wykonana</span></td>
+                            var targetId = "details" + transaction.TransactionID;
+                            
+
+                            <tr class="tr-main align-middle" data-bs-toggle="collapse" data-bs-target="#@targetId">
+                                <td class="py-3 ps-3">
+                                    <div class="text-muted small">@transaction.Date.ToString("dd.MM.yyyy")</div>
+                                    <div class="fw-light small">@transaction.Date.ToString("HH:mm")</div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="rounded-circle bg-light p-2 me-3 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                            <i class="bi @transaction.Category?.CategoryIcon @transaction.Category?.CategoryColor fs-5"></i>
+                                        </div>
+                                        <div>
+                                            <span class="fw-bold d-block text-dark">@transaction.TransactionName</span>
+                                            <span class="info-label text-uppercase">@transaction.Category?.CategoryName</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="fw-bold fs-5 text-nowrap">
+                                    @transaction.Amount.ToString("N2") <small>zł</small>
+                                </td>
+                                <td>
+                                    <span class="badge rounded-pill bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-3">
+                                        <i class="bi bi-check2-circle me-1"></i> Wykonana
+                                    </span>
+                                </td>
+                                <td class="text-end pe-3 text-muted">
+                                    <i class="bi bi-chevron-down small"></i>
+                                </td>
+                            </tr>
+
+                            <tr class="collapse" id="@targetId">
+                                <td colspan="5" class="p-0 border-0">
+                                    <div class="detail-card p-4 bg-light border-start border-end border-bottom mx-2 mb-3 shadow-sm rounded-bottom-4">
+                                        <div class="row g-4">
+                                            <div class="col-md-4">
+                                                <h6 class="info-label fw-bold text-uppercase mb-3">Szczegóły operacji</h6>
+                                                <div class="p-3 bg-white rounded-3 border">
+                                                    <p class="mb-0 text-secondary">
+                                                        <i class="bi bi-chat-left-text me-2"></i>
+                                                        @(string.IsNullOrEmpty(transaction.Description) ? "Brak dodatkowego opisu." : transaction.Description)
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <h6 class="info-label fw-bold text-uppercase mb-3">Strona wysyłająca</h6>
+                                                <div class="p-3 bg-white rounded-3 border border-start-0 border-end-0 border-top-0 border-bottom-3 border-danger">
+                                                    <p class="mb-1 fw-bold">@transaction.Sender?.FullName</p>
+                                                    <p class="font-monospace text-muted mb-0">@transaction.Sender?.AccountNumber</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <h6 class="info-label fw-bold text-uppercase mb-3">Strona odbierająca</h6>
+                                                <div class="p-3 bg-white rounded-3 border border-start-0 border-end-0 border-top-0 border-bottom-3 border-success">
+                                                    <p class="mb-1 fw-bold">@transaction.Receiver?.FullName</p>
+                                                    <p class="font-monospace text-muted mb-0">@transaction.Receiver?.AccountNumber</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex justify-content-end mt-3">
+                                            <button class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                                                <i class="bi bi-printer me-1"></i> Potwierdzenie
+                                            </button>
+                                        </div>
+                                    </div>
+                                </td>
                             </tr>
                         }
                     </tbody>

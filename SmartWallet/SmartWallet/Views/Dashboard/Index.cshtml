@@ -77,8 +77,8 @@ else
                         {
                             <div class="list-group-item p-4 border-0 border-bottom d-flex align-items-center justify-content-between">
                                 <div class="d-flex align-items-center">
-                                    <div class="rounded-circle p-3 me-3 @(t.Amount < 0 ? "bg-danger-subtle text-danger" : "bg-success-subtle text-success")">
-                                        <i class="bi @(t.Amount < 0 ? "bi-arrow-down-left" : "bi-arrow-up-right") fs-5"></i>
+                                    <div class="rounded-circle p-3 me-3 @(t.AccountNumber == Model.AccountNumber ? "bg-success-subtle text-success" : "bg-danger-subtle text-danger" )">
+                                        <i class="bi @(t.AccountNumber == Model.AccountNumber ? "bi-arrow-up-right":"bi-arrow-down-left") fs-5"></i>
                                     </div>
                                     <div>
                                        
@@ -86,8 +86,8 @@ else
                                     </div>
                                 </div>
                                 <div class="text-end">
-                                    <h6 class="mb-0 fw-bold @(t.Amount < 0 ? "text-danger" : "text-success")">
-                                        @(t.Amount < 0 ? "" : "+") @t.Amount.ToString("C")
+                                    <h6 class="mb-0 fw-bold @(t.AccountNumber == Model.AccountNumber ? "text-success" : "text-danger")">
+                                        @(t.Amount < 0 ? "" : t.AccountNumber == Model.AccountNumber ? "+" : "-") @t.Amount.ToString("C")
                                     </h6>
                                     <span class="badge bg-light text-dark rounded-pill">Bank Transfer</span>
                                 </div>

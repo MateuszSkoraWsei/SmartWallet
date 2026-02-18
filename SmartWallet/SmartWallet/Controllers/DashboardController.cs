@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SmartWallet.Data;
 using SmartWallet.Models;
 using SmartWallet.Models.ViewModels;
@@ -24,6 +25,7 @@ namespace SmartWallet.Controllers
             if (user is null) return NotFound();
 
             var recentTransaztion = context.Transactions
+                
                 .Where(t => t.SenderId == user.Id || t.ReceiverId == user.Id)
                 .OrderByDescending(t => t.Date)
                 .Take(5)
@@ -40,9 +42,12 @@ namespace SmartWallet.Controllers
 
             return View(viewModel);
         }
-        public IActionResult PersonalData()
+        public async Task<IActionResult> PersonalData()
         {
-            return View();
+            var user = await userManager.GetUserAsync(User);
+            if (user is null) return NotFound();
+
+            return View(user);
         }
 
 

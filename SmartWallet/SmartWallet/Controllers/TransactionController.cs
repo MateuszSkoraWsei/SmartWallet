@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SmartWallet.Models;
 using SmartWallet.Data;
 using SmartWallet.Models.ViewModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace SmartWallet.Controllers
 {
@@ -23,6 +24,9 @@ namespace SmartWallet.Controllers
             var user = await userManager.GetUserAsync(User);
             if (user is null) return NotFound();
             var transactions = context.Transactions
+                .Include(t => t.Sender)
+                .Include(t => t.Receiver)
+                .Include(t => t.Category)
                 .Where(t => t.SenderId == user.Id || t.ReceiverId == user.Id)
                 .OrderByDescending(t => t.Date)
                 .ToList();
@@ -33,6 +37,7 @@ namespace SmartWallet.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            ViewBag.Categories = context.Categories.ToList();
 
             return View(new CreateTransactionViewModel());
         }
@@ -69,7 +74,8 @@ namespace SmartWallet.Controllers
                     TransactionName = vm.TransactionName,
                     Description = vm.Description,
                     Date = DateTime.Now,
-                    CategoryID = 2
+                    CategoryID = vm.CategoryID,
+                    
                 };
 
                 context.Transactions.Add(transaction);
