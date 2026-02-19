@@ -6,51 +6,78 @@
     
 }
 
-<div class="container py-4">
-    <div class="row justify-content-center">
-        <div class="col-lg-4 mb-4">
-            <div class="card border-0 shadow-sm rounded-4 text-center p-4">
-                <div class="card-body">
-                    <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 80px; height: 80px;">
-                        <i class="bi bi-person-fill fs-1"></i>
-                    </div>
-                    <h4 class="fw-bold mb-1">@Model.FullName</h4>
-                    <p class="text-muted small">@Model.Email</p>
-                    <hr>
-                    <div class="text-start">
-                        <p class="small text-muted mb-1 text-uppercase">Twój Numer Konta</p>
-                        <p class="fw-bold font-monospace mb-0">@Model.AccountNumber</p>
-                    </div>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 text-center p-4 mb-4">
+                <div class="position-relative d-inline-block mx-auto mb-3">
+                    @if (!string.IsNullOrEmpty(Model.ProfilePictureUrl))
+                    {
+                        <img src="@Model.ProfilePictureUrl" class="rounded-circle img-thumbnail shadow-sm" style="width: 150px; height: 150px; object-fit: cover;" />
+                    }
+                    else
+                    {
+                        <div class="rounded-circle bg-light d-flex align-items-center justify-content-center shadow-sm mx-auto" style="width: 150px; height: 150px;">
+                            <i class="bi bi-person text-secondary" style="font-size: 4rem;"></i>
+                        </div>
+                    }
+                </div>
+                <h4 class="fw-bold">@Model.Name @Model.Surname</h4>
+                <p class="text-muted small">@Model.Email</p>
+                <div class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2">
+                    Klient SmartWallet
+                </div>
+                <hr class="my-4">
+                <div class="text-start">
+                    <p class="mb-1"><strong>Nr konta:</strong></p>
+                    <code class="text-dark bg-light p-2 d-block rounded">@Model.AccountNumber</code>
                 </div>
             </div>
         </div>
 
-        <div class="col-lg-8">
+        <div class="col-md-8">
             <div class="card border-0 shadow-sm rounded-4 p-4">
-                <div class="card-body">
-                    <h5 class="fw-bold mb-4">Dane użytkownika</h5>
-                    <form asp-action="UpdateProfile" method="post">
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <label class="form-label small fw-bold text-muted">IMIĘ I NAZWISKO</label>
-                                <input asp-for="FullName" class="form-control bg-light border-0 shadow-none p-3 rounded-3" readonly />
-                            </div>
-                            
-                            <div class="col-md-12">
-                                <label class="form-label small fw-bold text-muted">NUMER TELEFONU</label>
-                                <input asp-for="PhoneNumber" class="form-control bg-light border-0 shadow-none p-3 rounded-3" placeholder="+48 000 000 000" />
-                            </div>
-                            <div class="col-md-12">
-                                <label class="form-label small fw-bold text-muted">ADRES E-MAIL</label>
-                                <input asp-for="Email" class="form-control bg-light border-0 shadow-none p-3 rounded-3" readonly />
-                                <small class="text-muted">Adresu e-mail nie można zmienić samodzielnie.</small>
-                            </div>
+                <h5 class="fw-bold mb-4">Informacje osobiste</h5>
+                <form asp-action="UpdateProfile" method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Name" class="form-label">Imię</label>
+                            <input asp-for="Name" class="form-control" />
                         </div>
-                        <div class="mt-4 pt-2">
-                            <button type="submit" class="btn btn-primary rounded-pill px-5 py-3 shadow-sm">Zapisz zmiany</button>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Surname" class="form-label">Nazwisko</label>
+                            <input asp-for="Surname" class="form-control" />
                         </div>
-                    </form>
-                </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Gender" class="form-label">Płeć</label>
+                            <select asp-for="Gender" asp-items="Html.GetEnumSelectList<SmartWallet.Models.GenderType>()" class="form-select"></select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="DateOfBirth" class="form-label">Data urodzenia</label>
+                            <input asp-for="DateOfBirth" type="date" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="address" class="form-label">Adres zamieszkania</label>
+                        <input asp-for="address" class="form-control" />
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label">Zmień zdjęcie profilowe</label>
+                        <input type="file" name="profileImage" class="form-control" accept="image/*" />
+                        <small class="text-muted">Zalecany format kwadratowy, max 2MB.</small>
+                    </div>
+
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary px-5 py-2 fw-bold">Zapisz zmiany</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

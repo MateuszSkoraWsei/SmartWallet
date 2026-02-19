@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using Microsoft.Identity.Client;
 using SmartWallet.Data;
 using SmartWallet.Models;
 using SmartWallet.Views;
@@ -48,6 +50,7 @@ namespace SmartWallet.Controllers
                 FullName = $"{model.Name} {model.Surname}", 
                 DateOfBirth = model.DateOfBirth,
                 Gender = model.Gender,
+                NormalizedUserName = GenerateUserName(model.Name, model.Surname , userCount+1)
 
             };
             var result = await _userManager.CreateAsync(user, model.Password);
@@ -58,6 +61,10 @@ namespace SmartWallet.Controllers
             }
             foreach (var error in result.Errors) ModelState.AddModelError(string.Empty, error.Description);
             return View(model);
+        }
+        public string GenerateUserName(string name,string surname,int UserNumber)
+        {
+            return $"{name.Substring(0,3).ToUpper()}{surname.Substring(0,3).ToUpper()}{UserNumber.ToString("d4")}";
         }
         private string GenerateAccountNumber(int UserNumber)
         {
