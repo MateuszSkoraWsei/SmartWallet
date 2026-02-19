@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Humanizer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SmartWallet.Data;
@@ -53,6 +54,29 @@ namespace SmartWallet.Controllers
                 })
                 .ToList();
             return Json(categoryData);
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetBalanceHistory()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var transactions = _context.Transactions
+                .Where(t => t.SenderId == user.Id || t.ReceiverId == user.Id)
+                .OrderBy(t => t.Date)
+                .ToList();
+
+            var history = new List<object>();
+            decimal currentBalance = 0; // Możesz zacząć od 0 lub od salda początkowego
+
+            foreach (var t in transactions)
+            {
+                if (t.ReceiverId == user.Id) currentBalance += t.Amount;
+                else currentBalance -= t.Amount;
+
+                history.Add(new { date = t.Date.ToString("dd.MM"), balance = currentBalance });
+            }
+
+            return Json(history);
+
         }
     }
 }

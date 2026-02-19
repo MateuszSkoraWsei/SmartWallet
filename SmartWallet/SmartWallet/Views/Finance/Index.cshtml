@@ -58,27 +58,31 @@
             <h5 class="fw-bold mb-4">Struktura wydatków</h5>
             <canvas id="expensesChart" style="max-height: 300px;"></canvas>
         </div>
+        <div class="card border-0 shadow-sm rounded-4 p-4">
+            <h5 class="fw-bold mb-4">Wydatki i Zyski Ostatniego Miesiąca: </h5>
+            <canvas id="LastMonthLineChart" style="max-height: 300px;"></canvas>
+        </div>
     </div>
 </div>
 @section Scripts {
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        // 1. Pobieranie danych z Twojego API
+       
             fetch('/Finance/GetCategoryCharts')
             .then(response => response.json())
             .then(data => {
                 const ctx = document.getElementById('expensesChart').getContext('2d');
 
-                // 2. Mapowanie kolorów (z klas CSS na kody Hex dla wykresu)
+                
                 const colorMap = {
-                    'text-danger': '#dc3545',   // Rachunki
-                    'text-success': '#198754',  // Jedzenie
-                    'text-warning': '#ffc107',  // Rozrywka
-                    'text-info': '#0dcaf0',     // Transport
-                    'text-secondary': '#6c757d' // Inne
+                    'text-danger': '#dc3545',   
+                    'text-success': '#198754',  
+                    'text-warning': '#ffc107',  
+                    'text-info': '#0dcaf0',     
+                    'text-secondary': '#6c757d' 
                 };
 
-                // 3. Inicjalizacja wykresu
+                
                 new Chart(ctx, {
                     type: 'doughnut',
                     data: {
@@ -103,11 +107,47 @@
                                 }
                             }
                         },
-                        cutout: '70%' // To robi efekt "pączka" (cienki pierścień)
+                        cutout: '70%' 
                     }
                 });
             })
             .catch(error => console.error('Błąd pobierania danych:', error));
+
+                    fetch('/Finance/GetBalanceHistory')
+            .then(res => res.json())
+            .then(data => {
+                    const ctx = document.getElementById('LastMonthLineChart').getContext('2d');
+
+                // Tworzymy gradient pod linią (efekt Premium)
+                const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+                gradient.addColorStop(0, 'rgba(13, 110, 253, 0.3)');
+                gradient.addColorStop(1, 'rgba(13, 110, 253, 0)');
+
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: data.map(x => x.date),
+                        datasets: [{
+                            label: 'Saldo (PLN)',
+                            data: data.map(x => x.balance),
+                            borderColor: '#0d6efd',
+                            backgroundColor: gradient,
+                            fill: true,
+                            tension: 0.4, // Robi gładkie, zaokrąglone linie
+                            pointRadius: 4,
+                            pointBackgroundColor: '#0d6efd'
+                        }]
+                    },
+                    options: {
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            y: { beginAtZero: false, grid: { display: false } },
+                            x: { grid: { display: false } }
+                        }
+                    }
+                });
+            });
     });
 </script>
 }

@@ -147,10 +147,10 @@ C:\Users\Mateusz\Documents\GitHub\SmartWallet\SmartWallet\SmartWallet\obj\Debug\
 C:\Users\Mateusz\Documents\GitHub\SmartWallet\SmartWallet\SmartWallet\obj\Debug\net8.0\staticwebassets.build.json.cache
 C:\Users\Mateusz\Documents\GitHub\SmartWallet\SmartWallet\SmartWallet\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\Mateusz\Documents\GitHub\SmartWallet\SmartWallet\SmartWallet\obj\Debug\net8.0\staticwebassets.build.endpoints.json
-C:\Users\Mateusz\Documents\GitHub\SmartWallet\SmartWallet\SmartWallet\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\Mateusz\Documents\GitHub\SmartWallet\SmartWallet\SmartWallet\obj\Debug\net8.0\SmartWal.9AA54FBA.Up2Date
 C:\Users\Mateusz\Documents\GitHub\SmartWallet\SmartWallet\SmartWallet\obj\Debug\net8.0\SmartWallet.dll
 C:\Users\Mateusz\Documents\GitHub\SmartWallet\SmartWallet\SmartWallet\obj\Debug\net8.0\refint\SmartWallet.dll
 C:\Users\Mateusz\Documents\GitHub\SmartWallet\SmartWallet\SmartWallet\obj\Debug\net8.0\SmartWallet.pdb
 C:\Users\Mateusz\Documents\GitHub\SmartWallet\SmartWallet\SmartWallet\obj\Debug\net8.0\SmartWallet.genruntimeconfig.cache
 C:\Users\Mateusz\Documents\GitHub\SmartWallet\SmartWallet\SmartWallet\obj\Debug\net8.0\ref\SmartWallet.dll
+C:\Users\Mateusz\Documents\GitHub\SmartWallet\SmartWallet\SmartWallet\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

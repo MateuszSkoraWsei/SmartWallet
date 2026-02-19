@@ -38,7 +38,18 @@ namespace SmartWallet.Controllers
         {
             if (!ModelState.IsValid) return View(model);
             int userCount = _context.Users.Count();
-            var user = new ApplicationUser { UserName = model.Email, AccountNumber = GenerateAccountNumber(userCount + 1), Balance = 1000, Email = model.Email, FullName = model.FullName };
+            var user = new ApplicationUser { 
+                UserName = model.Email,
+                AccountNumber = GenerateAccountNumber(userCount + 1),
+                Balance = 1000,
+                Email = model.Email,
+                Name = model.Name,
+                Surname = model.Surname,
+                FullName = $"{model.Name} {model.Surname}", 
+                DateOfBirth = model.DateOfBirth,
+                Gender = model.Gender,
+
+            };
             var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
@@ -62,11 +73,27 @@ namespace SmartWallet.Controllers
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (!ModelState.IsValid) return View(model);
+
             var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+
             if (result.Succeeded) return RedirectToAction("Index", "Home");
-            ModelState.AddModelError(string.Empty, "Błędny login lub hasło");
+
+            // DIAGNOSTYKA:
+            if (result.IsNotAllowed)
+            {
+                ModelState.AddModelError(string.Empty, "Konto nie jest zatwierdzone (prawdopodobnie brak potwierdzenia e-mail).");
+            }
+            else if (result.IsLockedOut)
+            {
+                ModelState.AddModelError(string.Empty, "Konto jest zablokowane.");
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Błędny login lub hasło.");
+            }
+
             return View(model);
         }
-        
+
     }
 }
