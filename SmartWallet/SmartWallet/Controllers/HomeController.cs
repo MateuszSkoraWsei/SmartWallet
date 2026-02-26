@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using SmartWallet.Models;
-using SmartWallet.Views;
+
 using SmartWallet.Models.ViewModels;
 
 namespace SmartWallet.Controllers

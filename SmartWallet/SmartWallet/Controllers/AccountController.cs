@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using Microsoft.Identity.Client;
 using SmartWallet.Data;
 using SmartWallet.Models;
-using SmartWallet.Views;
+using SmartWallet.Models.ViewModels;
+using SmartWallet.Services;
 using System.Threading.Tasks;
 
 namespace SmartWallet.Controllers
@@ -13,13 +15,16 @@ namespace SmartWallet.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly AppDbContext _context; 
+        private readonly AppDbContext _context;
+        private readonly IEmailService _emailService;
+        private int _minAge;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager , AppDbContext context)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, AppDbContext context, IEmailService emailService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _context = context;
+            _emailService = emailService;
         }
 
         [HttpGet]
@@ -40,31 +45,38 @@ namespace SmartWallet.Controllers
         {
             if (!ModelState.IsValid) return View(model);
             int userCount = _context.Users.Count();
-            var user = new ApplicationUser { 
+            var user = new ApplicationUser
+            {
                 UserName = model.Email,
                 AccountNumber = GenerateAccountNumber(userCount + 1),
                 Balance = 1000,
                 Email = model.Email,
                 Name = model.Name,
                 Surname = model.Surname,
-                FullName = $"{model.Name} {model.Surname}", 
+                FullName = $"{model.Name} {model.Surname}",
                 DateOfBirth = model.DateOfBirth,
                 Gender = model.Gender,
-                NormalizedUserName = GenerateUserName(model.Name, model.Surname , userCount+1)
+                NormalizedUserName = GenerateUserName(model.Name, model.Surname, userCount + 1)
 
             };
             var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
+                var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                var confirmationLink = Url.Action("ConfirmEmail", "Account",
+                    new { userId = user.Id, token = token }, Request.Scheme);
+
+                await _emailService.SendEmailAsync(user.Email, "Potwierdź swój adres e-mail",
+                    $"Aby potwierdzić konto w SmartWallet, <a href='{confirmationLink}'>kliknij tutaj</a>.");
                 await _signInManager.SignInAsync(user, isPersistent: false);
                 return RedirectToAction("Index", "Home");
             }
             foreach (var error in result.Errors) ModelState.AddModelError(string.Empty, error.Description);
             return View(model);
         }
-        public string GenerateUserName(string name,string surname,int UserNumber)
+        public string GenerateUserName(string name, string surname, int UserNumber)
         {
-            return $"{name.Substring(0,3).ToUpper()}{surname.Substring(0,3).ToUpper()}{UserNumber.ToString("d4")}";
+            return $"{name.Substring(0, 3).ToUpper()}{surname.Substring(0, 3).ToUpper()}{UserNumber.ToString("d4")}";
         }
         private string GenerateAccountNumber(int UserNumber)
         {
@@ -102,5 +114,33 @@ namespace SmartWallet.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        [AllowAnonymous] 
+        public async Task<IActionResult> ConfirmEmail(string userId, string token)
+        {
+            if (userId == null || token == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return NotFound($"Nie znaleziono użytkownika o ID '{userId}'.");
+            }
+
+            
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+
+            if (result.Succeeded)
+            {
+                return View("ConfirmEmail");
+            }
+            else
+            {
+                return BadRequest("Błąd podczas weryfikacji e-maila. Token mógł wygasnąć.");
+            }
+        }
     }
+
 }

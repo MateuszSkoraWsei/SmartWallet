@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using SmartWallet.Attributes;
 
-namespace SmartWallet.Views
+namespace SmartWallet.Models.ViewModels
 {
     public class RegisterViewModel
     {
@@ -39,7 +39,7 @@ namespace SmartWallet.Views
         [Display(Name = "Potwierdź Hasło")]
         public string ConfirmPassword { get; set; }
 
-        [SmartWallet.Attributes.MustBeTrue(ErrorMessage = "Musisz zaakceptować politykę prywatności")]
+        [MustBeTrue(ErrorMessage = "Musisz zaakceptować politykę prywatności")]
         [Display(Name = "Akceptuję politykę prywatności")]
         public bool PrivacyPolicy { get; set; }
     }

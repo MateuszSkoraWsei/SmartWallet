@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using System.ComponentModel.DataAnnotations;
+using SmartWallet.Attributes;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SmartWallet.Models
 {
@@ -20,6 +21,8 @@ namespace SmartWallet.Models
 
         public DateTime DateOfBirth { get; set; }
 
+        [MaxFileSize(2 * 1024 * 1024)]
+        [AllowExtensionsAttribure(new string[] { ".jpg", ".jpeg", ".png" })]
         public string? ProfilePictureUrl { get; set; }
 
         public string? address { get; set; } 
@@ -29,5 +32,6 @@ namespace SmartWallet.Models
         public virtual ICollection<Transactions> SentTransaction { get; set; } 
         public virtual ICollection<Transactions> ReceivedTransaction { get; set; }
 
+        
     }
 }

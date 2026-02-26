@@ -38,46 +38,55 @@
         <div class="col-md-8">
             <div class="card border-0 shadow-sm rounded-4 p-4">
                 <h5 class="fw-bold mb-4">Informacje osobiste</h5>
-                <form asp-action="UpdateProfile" method="post" enctype="multipart/form-data">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label asp-for="Name" class="form-label">Imię</label>
-                            <input asp-for="Name" class="form-control" />
+                            Imię: @Model.Name
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label asp-for="Surname" class="form-label">Nazwisko</label>
-                            <input asp-for="Surname" class="form-control" />
+                            Nazwisko: @Model.Surname
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label asp-for="Gender" class="form-label">Płeć</label>
-                            <select asp-for="Gender" asp-items="Html.GetEnumSelectList<SmartWallet.Models.GenderType>()" class="form-select"></select>
+                            Płeć: @Model.Gender
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label asp-for="DateOfBirth" class="form-label">Data urodzenia</label>
-                            <input asp-for="DateOfBirth" type="date" class="form-control" />
+                            Data urodzenia: @Model.DateOfBirth.ToString("dd:MM:yyyy")
                         </div>
                     </div>
 
                     <div class="mb-3">
-                        <label asp-for="address" class="form-label">Adres zamieszkania</label>
-                        <input asp-for="address" class="form-control" />
+                        Addres: @Model.address
                     </div>
 
-                    <div class="mb-4">
-                        <label class="form-label">Zmień zdjęcie profilowe</label>
-                        <input type="file" name="profileImage" class="form-control" accept="image/*" />
-                        <small class="text-muted">Zalecany format kwadratowy, max 2MB.</small>
-                    </div>
+                    
 
                     <div class="d-flex justify-content-end">
-                        <button type="submit" class="btn btn-primary px-5 py-2 fw-bold">Zapisz zmiany</button>
+                        <a asp-controller="dashboard" asp-action="editProfile"> Edytuj dane </a>
                     </div>
-                </form>
+                <div class="mb-3">
+                    <label class="form-label d-block fw-bold">Status weryfikacji</label>
+                    @if (Model.EmailConfirmed)
+                    {
+                        <span class="badge bg-success">
+                            <i class="bi bi-check-circle-fill me-1"></i> Zweryfikowany
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">
+                            <i class="bi bi-x-circle-fill me-1"></i> Niezweryfikowany
+                        </span>
+                        <div class="mt-2">
+                            <small class="text-muted d-block mb-1">Twój adres e-mail nie został jeszcze potwierdzony.</small>
+                            <button class="btn btn-outline-primary btn-sm">Wyślij link ponownie</button>
+                        </div>
+                    }
+                </div>
+                
             </div>
         </div>
     </div>

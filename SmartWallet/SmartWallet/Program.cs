@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SmartWallet.Data;
 using SmartWallet.Models;
+using SmartWallet.Services;
 
 namespace SmartWallet
 {
@@ -20,6 +21,8 @@ namespace SmartWallet
             builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<AppDbContext>();
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddTransient<IEmailService, AzureEmailService>();
 
             var app = builder.Build();
 

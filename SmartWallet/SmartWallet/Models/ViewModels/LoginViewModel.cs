@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SmartWallet.Views
+namespace SmartWallet.Models.ViewModels
 {
     public class LoginViewModel
     {

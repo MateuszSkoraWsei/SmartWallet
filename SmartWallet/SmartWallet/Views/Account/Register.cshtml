@@ -1,5 +1,6 @@
-﻿
-@model SmartWallet.Views.RegisterViewModel
+﻿@using SmartWallet.Models.ViewModels
+
+@model RegisterViewModel
 @{
     ViewData["Title"] = "Register";
 }
@@ -63,10 +64,11 @@
                     </div>
 
                     <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="privacyPolicy" required>
-                        <label class="form-check-label" for="privacyPolicy">
+                        <input type="checkbox" class="form-check-input" asp-for="PrivacyPolicy">
+                        <label class="form-check-label" asp-for="PrivacyPolicy">
                             Akceptuję <a asp-controller="Home" asp-action="Privacy" target="_blank">Politykę prywatności</a>
                         </label>
+                        <span asp-validation-for="PrivacyPolicy" class="text-danger"></span>
                     </div>
 
                     <button type="submit" class="btn btn-primary w-100 py-2 fw-bold shadow-sm">Utwórz konto</button>
