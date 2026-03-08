@@ -1,0 +1,36 @@
+@model List<SmartWallet.Models.ApplicationUser>;
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+        tbody>tr:hover{
+            opacity: 0.5;
+            cursor: pointer;
+        }
+
+</style>
+    
+
+
+<h1>Użytkownicy</h1>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Email</th>
+            <th>Imię</th>
+            <th>Nazwisko</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (ApplicationUser user in Model)
+        {
+            <tr onclick="window.location.href='/Admin/UserDetails?id=@user.Id'">
+                <td>@user.Id</td>
+                <td>@user.Email</td>
+                <td>@user.Name</td>
+                <td>@user.Surname</td>
+            </tr>
+        }
+    </tbody>

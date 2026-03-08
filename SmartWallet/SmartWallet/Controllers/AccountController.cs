@@ -95,7 +95,14 @@ namespace SmartWallet.Controllers
 
             var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
 
-            if (result.Succeeded) return RedirectToAction("Index", "Home");
+            if (result.Succeeded)
+            {
+                if(User.IsInRole("Admin"))
+                {
+                    return RedirectToAction("Index", "Admin");
+                }
+                return RedirectToAction("Index", "Home");
+            }
 
             // DIAGNOSTYKA:
             if (result.IsNotAllowed)
