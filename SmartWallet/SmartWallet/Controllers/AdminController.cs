@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Identity.Client;
 using SmartWallet.Data;
 using SmartWallet.Models;
@@ -20,9 +21,21 @@ namespace SmartWallet.Controllers
             _userManager = userManager;
             _context = context;
         }
+
+        [HttpGet]
         public IActionResult Index()
         {
-            return View();
+            var user = _userManager.GetUserAsync(User).Result;
+            if (user is null) return NotFound();
+
+            var viewModel = new Models.ViewModels.AdminIndexViewModel
+            {
+                TotalUsers = _context.Users.Count(),
+                TotalTransactions = _context.Transactions.Count(),
+                TotalBalance = _context.Users.Sum(u => u.Balance)
+            };
+
+            return View(viewModel);
         }
 
         [HttpGet]
@@ -49,6 +62,45 @@ namespace SmartWallet.Controllers
             .ToList();
             return View(transactions);
         }
+        [HttpGet]
+        public async Task<IActionResult> TransactionDetails(int id)
+        {
+            var transaction = await _context.Transactions
+                .Include(t => t.Sender)
+                .Include(t => t.Receiver)
+                .Include(t => t.Category)
+                .FirstOrDefaultAsync(t => t.TransactionID == id);
+            if (transaction is null) return NotFound();
+            return View(transaction);
+        }
+        [Authorize(Roles="Admin")]
+        public async Task<IActionResult> TransactionStatusSetToComplete(int id)
+        {
+            var transaction = await _context.Transactions
+                .FirstOrDefaultAsync(t => t.TransactionID == id);
+            if (transaction is null) return NotFound();
+            
+            if(transaction.Status != TransactionStatus.Completed)
+            {
+                transaction.Status = TransactionStatus.Completed;
+
+            }
+            return RedirectToAction(nameof(Transactions));
+        }
+        [Authorize(Roles="Admin")]
+        public async Task<IActionResult> TransactionStatusSetToCancel(int id)
+        {
+            var transaction = await _context.Transactions.FindAsync(id);
+
+            if (transaction is null) return NotFound();
+
+            if(transaction.Status != TransactionStatus.Cancelled)
+            {
+                transaction.Status = TransactionStatus.Cancelled;
+            }
+            return RedirectToAction(nameof(Transactions));
+        }
+
 
         [HttpGet]
         public async Task<IActionResult> UserDetails(string id)
@@ -70,7 +122,7 @@ namespace SmartWallet.Controllers
             }
             else
             {
-                // Obsłuż błędy usuwania, np. wyświetl komunikat o błędzie
+                
                 return View("Error", "Nie można usunąć użytkownika.");
             }
         }

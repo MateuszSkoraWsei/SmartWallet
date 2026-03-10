@@ -3,28 +3,48 @@
     ViewData["Title"] = "Admin Transactions";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-<h1>Transakcje</h1>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Data</th>
-            <th>Kwota</th>
-            <th>Nadawca</th>
-            <th>Odbiorca</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (Transactions transaction in Model)
-        {
-            <tr>
-                <td>@transaction.Date.ToString("g")</td>
-                <td>@transaction.Amount.ToString("C")</td>
-                <td>@transaction.Sender.Email</td>
-                <td>@transaction.Receiver.Email</td>
-            </tr>
-        }
-    </tbody>
-</table>
+<style>
+    tbody>tr:hover{
+        opacity : 0.7;
+        cursor: pointer;
+    }
+</style>
+
+<h1 class="d-none">Transakcje</h1>
+<div class="card shadow border-0 mb-4">
+    <div class="card-header bg-white py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Lista Transakcji</h6>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-light">
+                    <tr>
+                        <th>Data</th>
+                        <th>Kwota</th>
+                        <th>Nadawca</th>
+                        <th>Odbiorca</th>
+                        <th>Status</th>
+                        <th class="text-end pe-4">Akcje</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Transactions transaction in Model)
+                    {
+                        <tr style="cursor:pointer;" onclick="window.location.href='@Url.Action("TransactionDetails","Admin", new { id = transaction.TransactionID })'">
+                            <td>@transaction.Date.ToString("g")</td>
+                            <td>@transaction.Amount.ToString("C")</td>
+                            <td>@transaction.Sender.Email</td>
+                            <td>@transaction.Receiver.Email</td>
+                            <td>@transaction.Status</td>
+                            <td class="text-end pe-4"><button class="btn btn-sm btn-outline-primary">Szczegóły</button></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 @if (Model.Count > 10)
 {
     <nav aria-label="Page navigation">

@@ -154,3 +154,4 @@ C:\Users\Mateusz\Documents\GitHub\SmartWallet\SmartWallet\SmartWallet\obj\Debug\
 C:\Users\Mateusz\Documents\GitHub\SmartWallet\SmartWallet\SmartWallet\obj\Debug\net8.0\SmartWallet.genruntimeconfig.cache
 C:\Users\Mateusz\Documents\GitHub\SmartWallet\SmartWallet\SmartWallet\obj\Debug\net8.0\ref\SmartWallet.dll
 C:\Users\Mateusz\Documents\GitHub\SmartWallet\SmartWallet\SmartWallet\bin\Debug\net8.0\Azure.Communication.Email.dll
+C:\Users\Mateusz\Documents\GitHub\SmartWallet\SmartWallet\SmartWallet\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

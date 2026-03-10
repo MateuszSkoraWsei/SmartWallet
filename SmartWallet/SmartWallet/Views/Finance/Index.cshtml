@@ -57,10 +57,16 @@
         <div class="card border-0 shadow-sm rounded-4 p-4">
             <h5 class="fw-bold mb-4">Struktura wydatków</h5>
             <canvas id="expensesChart" style="max-height: 300px;"></canvas>
+            <div id="noDataMessage" style="display:none;" class="text-center mt-5">
+                <p class="text-muted">Brak danych do wyświetlenia</p>
+            </div>
         </div>
         <div class="card border-0 shadow-sm rounded-4 p-4">
             <h5 class="fw-bold mb-4">Wydatki i Zyski Ostatniego Miesiąca: </h5>
             <canvas id="LastMonthLineChart" style="max-height: 300px;"></canvas>
+            <div id="noMonthDataMessage" style="display:none;" class="text-center mt-5">
+                <p class="text-muted">Brak danych do wyświetlenia</p>
+            </div>
         </div>
     </div>
 </div>
@@ -71,7 +77,19 @@
             fetch('/Finance/GetCategoryCharts')
             .then(response => response.json())
             .then(data => {
-                const ctx = document.getElementById('expensesChart').getContext('2d');
+                    const canvas = document.getElementById('expensesChart');
+                
+                const brakDanych = document.getElementById('noDataMessage');
+
+                if(!data || data.length === 0){
+                    canvas.style.display = 'none';
+                    brakDanych.style.display = 'block';
+                    return;
+                }
+                canvas.style.display = 'block';
+                brakDanych.style.display = 'none';
+
+                const ctx = canvas.getContext('2d');
 
                 
                 const colorMap = {
@@ -116,9 +134,22 @@
                     fetch('/Finance/GetBalanceHistory')
             .then(res => res.json())
             .then(data => {
-                    const ctx = document.getElementById('LastMonthLineChart').getContext('2d');
+                   
+                        const canvas = document.getElementById('LastMonthLineChart');
+                        const noDataMessage = document.getElementById('noMonthDataMessage');
 
-                // Tworzymy gradient pod linią (efekt Premium)
+                        if(!data || data.length === 0)
+                        {
+                            canvas.style.display = 'none';
+                            noDataMessage.style.display = 'block';
+                            return;
+                        }
+                        canvas.style.display = 'block';
+                        noDataMessage.style.display = 'none';
+                        
+                        const ctx = canvas.getContext('2d');
+
+                
                 const gradient = ctx.createLinearGradient(0, 0, 0, 400);
                 gradient.addColorStop(0, 'rgba(13, 110, 253, 0.3)');
                 gradient.addColorStop(1, 'rgba(13, 110, 253, 0)');
@@ -133,7 +164,7 @@
                             borderColor: '#0d6efd',
                             backgroundColor: gradient,
                             fill: true,
-                            tension: 0.4, // Robi gładkie, zaokrąglone linie
+                            tension: 0.4, 
                             pointRadius: 4,
                             pointBackgroundColor: '#0d6efd'
                         }]

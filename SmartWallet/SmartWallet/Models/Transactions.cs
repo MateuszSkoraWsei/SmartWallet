@@ -2,6 +2,12 @@
 
 namespace SmartWallet.Models
 {
+    public enum TransactionStatus
+    {
+        Completed, 
+        Cancelled, 
+        Pending    
+    }
     public class Transactions
     {
         [Key]
@@ -21,6 +27,8 @@ namespace SmartWallet.Models
 
         public int CategoryID { get; set; }
         public virtual Category Category { get; set; }
+
+        public TransactionStatus Status { get; set; } = TransactionStatus.Pending;
 
     }
 }

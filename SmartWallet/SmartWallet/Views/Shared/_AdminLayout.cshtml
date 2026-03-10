@@ -25,35 +25,32 @@
 <body class="d-flex">
 
     <div class="sidebar d-flex flex-column p-3">
-        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+        <a href="/Admin" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
             <i class="bi bi-wallet2 me-2"></i>
             <span class="fs-4">SmartWallet - Admin Panel</span>
         </a>
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
             <li class="nav-item">
-                <a  class="nav-link text-white active">
+                <a  class="nav-link text-white @(ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "active" : "") "
+                   asp-controller="Admin" asp-action="Index">
                     <i class="bi bi-speedometer2 me-2"></i> Dashboard
                 </a>
             </li>
             <li>
-                <a class="nav-link text-white" 
+                <a class="nav-link text-white @(ViewContext.RouteData.Values["Action"]?.ToString() == "Users" ? "active" : "") "
                    asp-controller="Admin" asp-action="Users">
                     <i class="bi bi-people me-2"></i> Użytkownicy
                 </a>
             </li>
             
             <li>
-                <a  class="nav-link text-white"
+                <a class="nav-link text-white @(ViewContext.RouteData.Values["Action"]?.ToString() == "Transactions" ? "active" : "") "
                    asp-controller="Admin" asp-action="Transactions">
                     <i class="bi bi-arrow-left-right me-2"></i> Tranzakcje
                 </a>
             </li>
-            <li>
-                <a  class="nav-link text-white">
-                    <i class="bi bi-arrow-left-right me-2"></i> Aktywności
-                </a>
-            </li>
+            
         </ul>
         <hr>
         <div class="dropdown">

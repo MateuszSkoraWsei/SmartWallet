@@ -1,4 +1,4 @@
-﻿
+﻿@model SmartWallet.Models.ViewModels.AdminIndexViewModel
 
 @{
     ViewData["Title"] = "Admin Dashboard";
@@ -6,4 +6,62 @@
 }
 
 
-<h1>Admin Dashboard</h1>
+<div class="row">
+    <div class="col-xl-4 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2 border-0" style="border-left: 4px solid #4e73df !important;">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Użytkownicy</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.TotalUsers</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="bi bi-people-fill fs-1 text-gray-300" style="opacity: 0.3;"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-white border-0">
+                <a class="small text-primary stretched-link text-decoration-none" asp-action="Users">
+                    Zarządzaj listą <i class="bi bi-arrow-right shadow-sm"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2 border-0" style="border-left: 4px solid #1cc88a !important;">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Suma środków (PLN)</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.TotalBalance.ToString("C")</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="bi bi-cash-stack fs-1 text-gray-300" style="opacity: 0.3;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-md-6 mb-4">
+        <div class="card border-left-warning shadow h-100 py-2 border-0" style="border-left: 4px solid #f6c23e !important;">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Wszystkie Transakcje</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.TotalTransactions</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="bi bi-arrow-left-right fs-1 text-gray-300" style="opacity: 0.3;"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-white border-0">
+                <a class="small text-warning stretched-link text-decoration-none" asp-action="Transactions">
+                    Pełna historia <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
