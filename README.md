@@ -68,5 +68,5 @@ Jeśli chcesz przetestować pełną integrację z Azure, musisz dodać własne p
      "SenderEmail": "donotreply@twoja-zweryfikowana-domena.azurecomm.net"
    }
 ```
- 
+ [Admin]('https://github.com/MateuszSkoraWsei/SmartWallet/tree/main/photos/AdminDashboard.png')
 *Projekt stworzony jako pokaz umiejętności technicznych w ekosystemie .NET.*
