@@ -39,5 +39,18 @@ Aplikacja implementuje system dwuetapowej weryfikacji płatności:
 - **Zarządzanie stanem:** Rozwiązanie problemu wygasania danych w formularzach (ViewBag/SelectList) po błędach walidacji.
 - **Bezpieczeństwo:** Implementacja opcjonalnej trwałości sesji (Remember Me) oraz ochrona przed usunięciem konta zalogowanego admina.
 
+## 🔒 Bezpieczeństwo i Workflow
+- **Secrets Management:** Wrażliwe dane (Connection Strings) zostały odseparowane od kodu za pomocą `Secrets Manager` oraz zmiennych środowiskowych, co zapobiega wyciekowi danych do repozytorium.
+- **Git Flow:** Rozwój projektu odbywał się na osobnych gałęziach (Feature Branches), a następnie był integrowany z główną gałęzią `main` poprzez Merge Requests.
+- **Data Protection:** Implementacja mechanizmu `DataProtection` w celu zachowania trwałości kluczy sesyjnych po restarcie serwera.
 ---
+
+### 🔑 Konfiguracja bazy danych
+Projekt korzysta z LocalDB do celów deweloperskich, ale jest gotowy na SQL Server. Aby połączyć się z własną bazą:
+1. Otwórz plik `appsettings.json` lub użyj **Secrets Managera**.
+2. Uzupełnij ConnectionString:
+   ```json
+   "ConnectionStrings": {
+     "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=SmartWallet;Trusted_Connection=True;MultipleActiveResultSets=true"
+   }
 *Projekt stworzony jako pokaz umiejętności technicznych w ekosystemie .NET.*
