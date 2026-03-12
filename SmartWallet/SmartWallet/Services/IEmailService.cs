@@ -21,9 +21,14 @@ namespace SmartWallet.Services
 
         public async Task<bool> SendEmailAsync(string toEmail, string subject, string htmlContent)
         {
-            var emailClient = new EmailClient(_connectionString);
+            if (string.IsNullOrEmpty(_connectionString) || string.IsNullOrEmpty(_senderAddress))
+            {
+                return false;
+            }
+            
             try
             {
+                var emailClient = new EmailClient(_connectionString);
                 var emailMessage = new EmailMessage(
                     senderAddress: _senderAddress,
                     recipientAddress: toEmail,
@@ -38,7 +43,7 @@ namespace SmartWallet.Services
             }
             catch (RequestFailedException ex)
             {
-                // Log the exception (not implemented here)
+                
                 return false;
             }
         }
