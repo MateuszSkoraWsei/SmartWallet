@@ -28,10 +28,15 @@ namespace SmartWallet.Controllers
                 TotalBalance = user.Balance,
                 AccountNumber = user.AccountNumber,
                 MonthlyIncomes = _context.Transactions
-                    .Where(t => t.ReceiverId == user.Id && t.Date >= DateTime.Now.AddMonths(-1))
+                    .Where(t => t.ReceiverId == user.Id 
+                    && t.Date >= DateTime.Now.AddMonths(-1)
+                    && t.Status == TransactionStatus.Completed)
+                    
                     .Sum(t => t.Amount),
                 MonthlyExpenses = _context.Transactions
-                    .Where(t => t.SenderId == user.Id && t.Date >= DateTime.Now.AddMonths(-1))
+                    .Where(t => t.SenderId == user.Id 
+                    && t.Date >= DateTime.Now.AddMonths(-1)
+                    && t.Status == TransactionStatus.Completed)
                     .Sum(t => t.Amount)
             };
             return View(model);
@@ -43,6 +48,7 @@ namespace SmartWallet.Controllers
             var user = await _userManager.GetUserAsync(User);
             var categoryData = _context.Transactions
                 .Where(t => t.SenderId == user.Id && t.Date >= DateTime.Now.AddMonths(-1))
+                .Where(t => t.Status == TransactionStatus.Completed)
                 .Include(t => t.Category)
                 .GroupBy(t => t.Category.CategoryName)
                 .Select(g => new 
@@ -61,6 +67,7 @@ namespace SmartWallet.Controllers
             var user = await _userManager.GetUserAsync(User);
             var transactions = _context.Transactions
                 .Where(t => t.SenderId == user.Id || t.ReceiverId == user.Id)
+                .Where(t => t.Status == TransactionStatus.Completed)
                 .OrderBy(t => t.Date)
                 .ToList();
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using SmartWallet.Models;
 
 namespace SmartWallet.Data
 {
@@ -26,6 +27,10 @@ namespace SmartWallet.Data
                 .WithMany(u => u.ReceivedTransaction)
                 .HasForeignKey(t => t.ReceiverId)
                 .OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<Transactions>()
+                .Property(t => t.Status)
+                .HasConversion<string>()
+                .HasDefaultValue(TransactionStatus.Pending);
         }
     }
 }

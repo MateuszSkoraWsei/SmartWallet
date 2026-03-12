@@ -9,10 +9,10 @@
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-7">
-            @* Zwiększyłem nieco szerokość, by przyciski obok siebie wyglądały lepiej *@
+            
             <div class="card shadow-sm border-0">
 
-                @* Kolor nagłówka zależny od statusu i kwoty *@
+                
                 <div class="card-header @(Model.Status == TransactionStatus.Cancelled ? "bg-secondary" : (Model.Amount > 0 ? "bg-success" : "bg-danger")) text-white text-center py-4">
                     <h4 class="mb-0">Szczegóły Transakcji</h4>
                     @if (Model.Status == TransactionStatus.Cancelled)
@@ -57,15 +57,25 @@
 
                     <hr />
 
-                    @* Sekcja przycisków akcji *@
+                    
                     <div class="d-flex justify-content-between align-items-center mt-4">
                         <a asp-action="Transactions" class="btn btn-outline-secondary">
                             <i class="bi bi-arrow-left"></i> Wróć do historii
                         </a>
-
-                        @if (Model.Status != TransactionStatus.Cancelled)
+                        @if (Model.Status == TransactionStatus.Pending)
                         {
-                            <form asp-action="TransactionStatusSetToCancel" asp-route-id="@Model.TransactionID" asp-route-newStatus="@TransactionStatus.Cancelled" method="post"
+                            <form asp-action="TransactionStatusSetToComplete" asp-route-id="@Model.TransactionID" method="post"
+                                  onsubmit="return confirm('Czy na pewno chcesz zaakcepotwać te tranzakcję')">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="bi bi-check me-1"></i> Zaakceptuj Tranzakcję
+                                </button>
+                            </form>
+                        }
+                        
+
+                        else if (Model.Status != TransactionStatus.Cancelled && Model.Status != TransactionStatus.Pending)
+                        {
+                            <form asp-action="TransactionStatusSetToCancel" asp-route-id="@Model.TransactionID"  method="post"
                                   onsubmit="return confirm('Czy na pewno chcesz anulować tę transakcję? Spowoduje to korektę salda.')">
                                 <button type="submit" class="btn btn-danger">
                                     <i class="bi bi-x-circle me-1"></i> Anuluj Transakcję
@@ -74,8 +84,8 @@
                         }
                         else
                         {
-                            @* Opcjonalnie: Przycisk przywracania, jeśli uznasz, że jest potrzebny *@
-                            <form asp-action="ChangeStatus" asp-route-id="@Model.TransactionID" asp-route-newStatus="@TransactionStatus.Completed" method="post">
+
+                            <form asp-action="TransactionStatusSetToComplete" asp-route-id="@Model.TransactionID" method="post">
                                 <button type="submit" class="btn btn-success">
                                     <i class="bi bi-arrow-counterclockwise me-1"></i> Przywróć
                                 </button>

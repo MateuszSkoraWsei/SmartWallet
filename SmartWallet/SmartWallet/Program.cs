@@ -14,7 +14,7 @@ namespace SmartWallet
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
             builder.Services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(connectionString));
@@ -29,7 +29,7 @@ namespace SmartWallet
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+            
             if (app.Environment.IsDevelopment())
             {
                 app.UseMigrationsEndPoint();
@@ -63,29 +63,54 @@ namespace SmartWallet
         }
 
 
-    
-     
-public static async Task SeedRolesAndAdminAsync(IServiceProvider serviceProvider)
+
+
+        public static async Task SeedRolesAndAdminAsync(IServiceProvider serviceProvider)
         {
-            using (var scope = serviceProvider.CreateScope())
+            var scope = serviceProvider.CreateScope();
+            try
             {
+                var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
-                // 1. Tworzymy rolê Admin, jeœli nie istnieje
-                if (!await roleManager.RoleExistsAsync("Admin"))
+                await context.Database.MigrateAsync();
+
+                string[] roles = new string[] { "Admin", "User" };
+                foreach (var role in roles)
                 {
-                    await roleManager.CreateAsync(new IdentityRole("Admin"));
+                    if (!await roleManager.RoleExistsAsync(role))
+                    {
+                        await roleManager.CreateAsync(new IdentityRole(role));
+                    }
                 }
 
-                // 2. Szukamy Twojego konta i nadajemy rolê
-                var adminEmail = "matiskora54@gmail.com"; // WPISZ SWÓJ ADRES
+                //Admin login and password
+                string adminEmail = "admin@smartwallet.pl";
+                string adminPassword = "Admin123!";
+
                 var adminUser = await userManager.FindByEmailAsync(adminEmail);
 
-                if (adminUser != null && !await userManager.IsInRoleAsync(adminUser, "Admin"))
+                if (adminUser == null)
                 {
-                    await userManager.AddToRoleAsync(adminUser, "Admin");
+                    var admin = new ApplicationUser
+                    {
+                        UserName = adminEmail,
+                        Email = adminEmail,
+                        AccountNumber = "45000000000000",
+                        EmailConfirmed = true,
+                    };
+                    var result = await userManager.CreateAsync(admin, adminPassword);
+                    if (result.Succeeded)
+                    {
+                        await userManager.AddToRoleAsync(admin, "Admin");
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+               Console.WriteLine($"Error seeding roles and admin user: {ex.Message}");
+
             }
         }
     }

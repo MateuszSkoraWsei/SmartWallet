@@ -11,6 +11,24 @@
 </style>
 
 <h1 class="d-none">Transakcje</h1>
+<div class="btn-group shadow-sm">
+    <a asp-action="Transactions" asp-route-status=""
+       class="btn btn-outline-secondary @(ViewBag.CurrentFilter == null ? "active" : "")">
+        Wszystkie
+    </a>
+    <a asp-action="Transactions" asp-route-status="@TransactionStatus.Pending"
+       class="btn btn-outline-warning @(ViewBag.CurrentFilter == TransactionStatus.Pending ? "active" : "")">
+        <i class="bi bi-clock-history"></i> Oczekujące
+    </a>
+    <a asp-action="Transactions" asp-route-status="@TransactionStatus.Completed"
+       class="btn btn-outline-success @(ViewBag.CurrentFilter == TransactionStatus.Completed ? "active" : "")">
+        <i class="bi bi-check-circle"></i> Zakończone
+    </a>
+    <a asp-action="Transactions" asp-route-status="@TransactionStatus.Cancelled"
+       class="btn btn-outline-danger @(ViewBag.CurrentFilter == TransactionStatus.Cancelled ? "active" : "")">
+        <i class="bi bi-x-circle"></i> Anulowane
+    </a>
+</div>
 <div class="card shadow border-0 mb-4">
     <div class="card-header bg-white py-3">
         <h6 class="m-0 font-weight-bold text-primary">Lista Transakcji</h6>
@@ -45,15 +63,3 @@
         </div>
     </div>
 </div>
-@if (Model.Count > 10)
-{
-    <nav aria-label="Page navigation">
-        <ul class="pagination">
-            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-        </ul>
-    </nav>
-}

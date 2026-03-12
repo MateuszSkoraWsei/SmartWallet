@@ -26,8 +26,8 @@ namespace SmartWallet.Controllers
             if (user is null) return NotFound();
 
             var recentTransaztion = context.Transactions
-                
                 .Where(t => t.SenderId == user.Id || t.ReceiverId == user.Id)
+                .Where(t => t.Status == TransactionStatus.Completed)
                 .OrderByDescending(t => t.Date)
                 .Take(5)
                 .ToList();

@@ -63,7 +63,19 @@
             </li>
         </ul>
         <hr>
-        <div class="dropdown">
+        <div class="dropdown ">
+            @if (User.IsInRole("Admin"))
+            {
+                <a asp-controller="Admin" asp-action="Index" >
+                    <button class="btn btn-outline-light w-100 text-start">
+                        <i class="bi bi-box-arrow-right me-2"></i> Admin Panel
+
+                    </button>
+                    
+                </a>
+            }
+
+
             <form asp-area="Identity" asp-page="/Account/Logout" method="post">
                 <button type="submit" class="btn btn-outline-light w-100 text-start">
                     <i class="bi bi-box-arrow-right me-2"></i> Wyloguj

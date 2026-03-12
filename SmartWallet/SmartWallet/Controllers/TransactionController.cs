@@ -28,11 +28,12 @@ namespace SmartWallet.Controllers
                 .Include(t => t.Receiver)
                 .Include(t => t.Category)
                 .Where(t => t.SenderId == user.Id || t.ReceiverId == user.Id)
+                .Where(t => t.Status == TransactionStatus.Completed)
                 .OrderByDescending(t => t.Date)
                 .ToList();
             return View(transactions);
         }
-        //
+
         
         [HttpGet]
         public IActionResult Create()
@@ -50,10 +51,13 @@ namespace SmartWallet.Controllers
             if (ModelState.IsValid)
             {
                 var sender = await userManager.GetUserAsync(User);
+                ViewBag.Categories = context.Categories.ToList();
+
 
                 var receiver = context.Users.FirstOrDefault(u => u.AccountNumber == vm.AccountNumber);
                 if (receiver is null)
                 {
+                    
                     ModelState.AddModelError(string.Empty, "Nie znaleziono odbiorcy o podanym numerze konta.");
                     return View(vm);
                 }
@@ -62,8 +66,7 @@ namespace SmartWallet.Controllers
                     ModelState.AddModelError(string.Empty, "Nie Można robić przelewów na swój numer konta");
                     return View(vm);
                 }
-                    sender.Balance -= vm.Amount;
-                receiver.Balance += vm.Amount;
+                    
 
                 var transaction = new Transactions
                 {
