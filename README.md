@@ -67,6 +67,6 @@ Jeśli chcesz przetestować pełną integrację z Azure, musisz dodać własne p
      "ConnectionString": "Twój_ConnectionString_z_portalu_Azure",
      "SenderEmail": "donotreply@twoja-zweryfikowana-domena.azurecomm.net"
    }
-
+```
  
 *Projekt stworzony jako pokaz umiejętności technicznych w ekosystemie .NET.*
