@@ -68,5 +68,5 @@ Jeśli chcesz przetestować pełną integrację z Azure, musisz dodać własne p
      "SenderEmail": "donotreply@twoja-zweryfikowana-domena.azurecomm.net"
    }
 ```
-## 📸 Zdjęcia przedstawiające wygląd aplikacji znajdują się w folderze photos.
+## 📸 Zdjęcia przedstawiające wygląd aplikacji znajdują się w folderze [photos](./photos).
 *Projekt stworzony jako pokaz umiejętności technicznych w ekosystemie .NET.*
