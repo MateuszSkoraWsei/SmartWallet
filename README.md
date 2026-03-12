@@ -45,7 +45,7 @@ Aplikacja implementuje system dwuetapowej weryfikacji płatności:
 - **Data Protection:** Implementacja mechanizmu `DataProtection` w celu zachowania trwałości kluczy sesyjnych po restarcie serwera.
 ---
 
-### 🔑 Konfiguracja bazy danych
+## 🔑 Konfiguracja bazy danych
 Projekt korzysta z LocalDB do celów deweloperskich, ale jest gotowy na SQL Server. Aby połączyć się z własną bazą:
 1. Otwórz plik `appsettings.json` lub użyj **Secrets Managera**.
 2. Uzupełnij ConnectionString:
@@ -54,7 +54,7 @@ Projekt korzysta z LocalDB do celów deweloperskich, ale jest gotowy na SQL Serv
      "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=SmartWallet;Trusted_Connection=True;MultipleActiveResultSets=true"
    }
 
-###📧 Konfiguracja weryfikacji E-mail (Azure Communication Services)
+## 📧 Konfiguracja weryfikacji E-mail (Azure Communication Services)
 Aplikacja integruje się z usługą Azure Communication Services w celu wysyłki potwierdzeń transakcji oraz weryfikacji kont.
 
 Bezpieczeństwo danych (Secrets Management)
@@ -68,5 +68,5 @@ Jeśli chcesz przetestować pełną integrację z Azure, musisz dodać własne p
      "SenderEmail": "donotreply@twoja-zweryfikowana-domena.azurecomm.net"
    }
 ```
-###📸 Zdjęcia przedstawiające wygląd aplikacji znajdują się w folderze photos.
+## 📸 Zdjęcia przedstawiające wygląd aplikacji znajdują się w folderze photos.
 *Projekt stworzony jako pokaz umiejętności technicznych w ekosystemie .NET.*
