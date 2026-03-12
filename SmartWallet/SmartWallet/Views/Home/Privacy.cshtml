@@ -1,58 +1,88 @@
 ﻿@model dynamic
 @{
-    ViewData["Title"] = "Polityka Prywatności";
+    ViewData["Title"] = "Polityka Prywatności i Zasady Projektu";
 }
 
-<div class="container mt-5">
-    <div class="card shadow-sm">
-        <div class="card-body p-5">
-            <h1 class="text-primary mb-4"><i class="bi bi-shield-lock"></i> @ViewData["Title"]</h1>
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-body p-5">
+                    <div class="text-center mb-5">
+                        <h1 class="display-5 text-primary fw-bold">
+                            <i class="bi bi-shield-check"></i> @ViewData["Title"]
+                        </h1>
+                        <p class="text-muted">Ostatnia aktualizacja: @DateTime.Now.ToString("dd.MM.yyyy")</p>
+                    </div>
 
-            <div class="alert alert-warning border-start border-4">
-                <h4 class="alert-heading font-weight-bold">⚠️ WAŻNE OSTRZEŻENIE</h4>
-                <p class="mb-0">
-                    SmartWallet jest aplikacją stworzoną wyłącznie w <strong>celach edukacyjnych i rozwojowych</strong>.
-                    Nie jest to prawdziwy system bankowy ani platforma płatnicza.
-                </p>
-            </div>
+                    <div class="alert alert-danger border-0 shadow-sm rounded-3 p-4 mb-5">
+                        <div class="d-flex">
+                            <div class="me-3">
+                                <i class="bi bi-exclamation-octagon-fill display-6 text-danger"></i>
+                            </div>
+                            <div>
+                                <h4 class="alert-heading fw-bold text-danger">KLAUZULA TESTOWA (DISCLAIMER)</h4>
+                                <p class="mb-0">
+                                    Niniejsza aplikacja jest <strong>projektem o charakterze wyłącznie edukacyjnym</strong> (Portfolio Project).
+                                    Nie jest systemem płatniczym, nie posiada licencji bankowej i nie służy do zarządzania realnymi środkami finansowymi.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
 
-            <section class="mt-4">
-                <h5>1. Bezpieczeństwo danych</h5>
-                <p>
-                    Prosimy o <strong>niepodawanie prawdziwych danych osobowych</strong>, takich jak:
-                </p>
-                <ul>
-                    <li>Prawdziwe numery kont bankowych</li>
-                    <li>Hasła używane w innych serwisach</li>
-                    <li>Prawdziwe adresy zamieszkania czy numery PESEL</li>
-                </ul>
-                <p class="text-muted">
-                    Dane są przechowywane w lokalnej bazie danych dewelopera i mogą zostać usunięte w dowolnym momencie w ramach testów aplikacji.
-                </p>
-            </section>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <h5 class="fw-bold text-dark"><i class="bi bi-incognito text-primary"></i> 1. Przetwarzanie danych</h5>
+                            <p class="text-secondary">
+                                System wykorzystuje mechanizm <strong>ASP.NET Core Identity</strong> do zarządzania kontami. Przechowywane dane obejmują:
+                            </p>
+                            <ul class="small text-secondary">
+                                <li>Adres e-mail (służący jako login)</li>
+                                <li>Zahashowane hasło (nieznane administratorowi)</li>
+                                <li>Wirtualne saldo i historię operacji</li>
+                            </ul>
+                        </div>
 
-            <hr />
+                        <div class="col-md-6">
+                            <h5 class="fw-bold text-dark"><i class="bi bi-database-exclamation text-primary"></i> 2. Bezpieczeństwo</h5>
+                            <p class="text-secondary">
+                                <strong>Zasada ograniczonego zaufania:</strong> Prosimy o nieużywanie haseł, które stosujesz w innych serwisach. Dane są hostowane na serwerze testowym i mogą zostać zresetowane bez uprzedzenia.
+                            </p>
+                        </div>
 
-            <section>
-                <h5>2. Cel aplikacji</h5>
-                <p>
-                    Projekt ma na celu naukę technologii ASP.NET Core, Entity Framework oraz obsługi systemu Identity.
-                    Wszelkie "wirtualne pieniądze" (Balance) widoczne w aplikacji nie mają żadnej wartości rzeczywistej.
-                </p>
-            </section>
+                        <div class="col-md-6">
+                            <h5 class="fw-bold text-dark"><i class="bi bi-cookie text-primary"></i> 3. Mechanizmy Cookie</h5>
+                            <p class="text-secondary">
+                                Używamy wyłącznie plików <strong>Essential Cookies</strong>. Są one niezbędne do:
+                            </p>
+                            <ul class="small text-secondary">
+                                <li>Utrzymania sesji zalogowanego użytkownika</li>
+                                <li>Zabezpieczenia przed atakami typu CSRF (Cross-Site Request Forgery)</li>
+                            </ul>
+                        </div>
 
-            <section class="mt-4">
-                <h5>3. Pliki Cookies</h5>
-                <p>
-                    Aplikacja używa niezbędnych plików cookies do obsługi sesji logowania (ASP.NET Core Identity).
-                    Służą one jedynie do rozpoznania zalogowanego użytkownika i zapewnienia poprawnego działania mechanizmów bezpieczeństwa.
-                </p>
-            </section>
+                        <div class="col-md-6">
+                            <h5 class="fw-bold text-dark"><i class="bi bi-code-slash text-primary"></i> 4. Cel naukowy</h5>
+                            <p class="text-secondary">
+                                Projekt demonstruje umiejętności w zakresie:
+                            </p>
+                            <ul class="small text-secondary">
+                                <li>Implementacji wzorca MVC</li>
+                                <li>Zarządzania relacjami w Entity Framework Core</li>
+                                <li>Tworzenia systemów autoryzacji opartej na rolach (RBAC)</li>
+                            </ul>
+                        </div>
+                    </div>
 
-            <div class="mt-5 p-3 bg-light text-center rounded">
-                <p class="mb-0 text-secondary italic">
-                    SmartWallet &copy; @DateTime.Now.Year - Rozwijaj się z kodem!
-                </p>
+                    <hr class="my-5 opacity-10" />
+
+                    <div class="bg-light p-4 rounded-3 border-start border-primary border-4 text-center">
+                        <p class="mb-0 text-muted fst-italic">
+                            "Budowanie bezpiecznych aplikacji to proces, który zaczyna się od świadomości użytkownika."
+                        </p>
+                        <p class="fw-bold mt-2 mb-0">SmartWallet Project &copy; @DateTime.Now.Year</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

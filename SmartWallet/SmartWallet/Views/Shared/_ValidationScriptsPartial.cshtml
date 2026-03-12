@@ -1,2 +1,11 @@
 ﻿<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script>
+	(function ($) {
+		if (!$.validator) return;
+		$.validator.addMethod('mustbetrue', function (value, element) {
+			return element.checked === true;
+		});
+		$.validator.unobtrusive.adapters.addBool('mustbetrue');
+	})(window.jQuery);
+</script>

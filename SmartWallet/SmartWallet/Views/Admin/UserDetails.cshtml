@@ -1,0 +1,73 @@
+
+@model SmartWallet.Models.ApplicationUser;
+@{
+    ViewData["Title"] = "User Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<h1>Szczegóły użytkownika</h1>
+<div class="card mb-3">
+    <div class="card-body">
+        @* profile picture *@
+        @if (!string.IsNullOrEmpty(Model.ProfilePictureUrl))
+        {
+            <div class="mb-3 text-center">
+                <img src="@Model.ProfilePictureUrl" alt="Profil użytkownika" class="img-thumbnail" style="max-width:150px;" />
+            </div>
+        }
+
+        @{ 
+            string genderDisplay = Model.Gender switch
+            {
+                SmartWallet.Models.GenderType.Male => "Mężczyzna",
+                SmartWallet.Models.GenderType.Female => "Kobieta",
+                SmartWallet.Models.GenderType.Other => "Inna",
+                SmartWallet.Models.GenderType.NotSpecified => "Nie podano",
+                _ => ""
+            };
+        }
+
+        <dl class="row">
+            <dt class="col-sm-3">Id</dt>
+            <dd class="col-sm-9">@Model.Id</dd>
+
+            <dt class="col-sm-3">Nazwa użytkownika</dt>
+            <dd class="col-sm-9">@Model.UserName</dd>
+
+            <dt class="col-sm-3">Email</dt>
+            <dd class="col-sm-9">@Model.Email</dd>
+
+            <dt class="col-sm-3">Email potwierdzony</dt>
+            <dd class="col-sm-9">@(Model.EmailConfirmed ? "Tak" : "Nie")</dd>
+
+            <dt class="col-sm-3">Telefon</dt>
+            <dd class="col-sm-9">@Model.PhoneNumber</dd>
+
+            <dt class="col-sm-3">Imię</dt>
+            <dd class="col-sm-9">@Model.Name</dd>
+
+            <dt class="col-sm-3">Nazwisko</dt>
+            <dd class="col-sm-9">@Model.Surname</dd>
+
+            <dt class="col-sm-3">Pełne imię</dt>
+            <dd class="col-sm-9">@Model.FullName</dd>
+
+            <dt class="col-sm-3">Płeć</dt>
+            <dd class="col-sm-9">@genderDisplay</dd>
+
+            <dt class="col-sm-3">Data urodzenia</dt>
+            <dd class="col-sm-9">@Model.DateOfBirth.ToString("yyyy-MM-dd")</dd>
+
+            <dt class="col-sm-3">Adres</dt>
+            <dd class="col-sm-9">@Model.address</dd>
+
+            <dt class="col-sm-3">Saldo</dt>
+            <dd class="col-sm-9">@Model.Balance.ToString("C2")</dd>
+
+            <dt class="col-sm-3">Numer konta</dt>
+            <dd class="col-sm-9">@Model.AccountNumber</dd>
+        </dl>
+
+        <a asp-action="Users" class="btn btn-secondary">Powrót do listy</a>
+        <a asp-action="DeleteUser" asp-route-id="@Model.Id" class="btn btn-danger">Usuń użytkownika</a>
+    </div>
+</div>

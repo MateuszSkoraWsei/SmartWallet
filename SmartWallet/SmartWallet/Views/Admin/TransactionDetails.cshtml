@@ -1,0 +1,99 @@
+﻿@model SmartWallet.Models.Transactions
+
+
+@{
+    ViewData["title"] = "Szczegóły Transakcji";
+    Layout = "_AdminLayout";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+            
+            <div class="card shadow-sm border-0">
+
+                
+                <div class="card-header @(Model.Status == TransactionStatus.Cancelled ? "bg-secondary" : (Model.Amount > 0 ? "bg-success" : "bg-danger")) text-white text-center py-4">
+                    <h4 class="mb-0">Szczegóły Transakcji</h4>
+                    @if (Model.Status == TransactionStatus.Cancelled)
+                    {
+                        <small class="badge bg-light text-dark mt-2 text-uppercase">Anulowana</small>
+                    }
+                </div>
+
+                <div class="card-body p-4">
+                    <div class="text-center mb-4">
+                        <h1 class="display-4 fw-bold @(Model.Status == TransactionStatus.Cancelled ? "text-muted text-decoration-line-through" : (Model.Amount > 0 ? "text-success" : "text-danger"))">
+                            @Model.Amount.ToString("C")
+                        </h1>
+                        <span class="badge rounded-pill bg-light text-dark border">
+                            <i class="bi bi-clock me-1"></i> @Model.Date.ToString("dd.MM.yyyy HH:mm")
+                        </span>
+                    </div>
+
+                    <div class="row mb-4 text-center">
+                        <div class="col-5">
+                            <small class="text-muted d-block text-uppercase">Nadawca</small>
+                            <div class="d-flex align-items-center justify-content-center mt-2">
+                                <i class="bi bi-person-circle fs-4 me-2 text-secondary"></i>
+                                <span class="fw-bold">@(Model.Sender?.Name ?? "System/Wpłata")</span>
+                            </div>
+                            <small class="text-muted small">@(Model.Sender?.Email ?? "-")</small>
+                        </div>
+
+                        <div class="col-2 d-flex align-items-center justify-content-center">
+                            <i class="bi bi-arrow-right fs-3 text-muted"></i>
+                        </div>
+
+                        <div class="col-5">
+                            <small class="text-muted d-block text-uppercase">Odbiorca</small>
+                            <div class="d-flex align-items-center justify-content-center mt-2">
+                                <i class="bi bi-person-circle fs-4 me-2 text-primary"></i>
+                                <span class="fw-bold">@Model.Receiver?.Name</span>
+                            </div>
+                            <small class="text-muted small">@Model.Receiver?.Email</small>
+                        </div>
+                    </div>
+
+                    <hr />
+
+                    
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                        <a asp-action="Transactions" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left"></i> Wróć do historii
+                        </a>
+                        @if (Model.Status == TransactionStatus.Pending)
+                        {
+                            <form asp-action="TransactionStatusSetToComplete" asp-route-id="@Model.TransactionID" method="post"
+                                  onsubmit="return confirm('Czy na pewno chcesz zaakcepotwać te tranzakcję')">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="bi bi-check me-1"></i> Zaakceptuj Tranzakcję
+                                </button>
+                            </form>
+                        }
+                        
+
+                        else if (Model.Status != TransactionStatus.Cancelled && Model.Status != TransactionStatus.Pending)
+                        {
+                            <form asp-action="TransactionStatusSetToCancel" asp-route-id="@Model.TransactionID"  method="post"
+                                  onsubmit="return confirm('Czy na pewno chcesz anulować tę transakcję? Spowoduje to korektę salda.')">
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="bi bi-x-circle me-1"></i> Anuluj Transakcję
+                                </button>
+                            </form>
+                        }
+                        else
+                        {
+
+                            <form asp-action="TransactionStatusSetToComplete" asp-route-id="@Model.TransactionID" method="post">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="bi bi-arrow-counterclockwise me-1"></i> Przywróć
+                                </button>
+                            </form>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

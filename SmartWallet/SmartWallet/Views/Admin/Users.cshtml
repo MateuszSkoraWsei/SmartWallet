@@ -1,0 +1,79 @@
+@model List<SmartWallet.Models.ApplicationUser>;
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+        tbody>tr:hover{
+            opacity: 0.5;
+            cursor: pointer;
+        }
+
+</style>
+    
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="bi bi-exclamation-octagon-fill me-2"></i>
+        @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle-fill me-2"></i>
+        @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="card shadow border-0 mb-4">
+    <div class="card-header bg-white py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Lista Użytkowników</h6>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-light">
+                    <tr>
+                        <th class="ps-4">Użytkownik</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th class="text-end pe-4">Akcje</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        <tr style="cursor: pointer;" onclick="window.location.href='@Url.Action("UserDetails", "Admin", new { id = user.Id })'">
+                            <td class="ps-4">
+                                <div class="d-flex align-items-center">
+                                    
+                                    <div>
+                                        <div class="fw-bold">@user.FullName</div>
+                                        <small class="text-muted">ID: @user.Id.ToString().Substring(0, 8)...</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>@user.Email</td>
+                            <td>
+                                @if (user.EmailConfirmed)
+                                {
+                                    <span class="badge bg-success-soft text-success"><i class="bi bi-check-circle me-1"></i>Zweryfikowany</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-warning-soft text-warning"><i class="bi bi-exclamation-triangle me-1"></i>Oczekuje</span>
+                                }
+                            </td>
+                            <td class="text-end pe-4">
+                                <button class="btn btn-sm btn-outline-primary">Szczegóły</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

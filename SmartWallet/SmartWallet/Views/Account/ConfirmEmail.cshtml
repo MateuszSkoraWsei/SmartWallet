@@ -1,0 +1,11 @@
+﻿<div class="alert alert-success text-center">
+    <h2>E-mail zweryfikowany!</h2>
+    <p>Za chwilę zostaniesz przekierowany do strony logowania...</p>
+    <div class="spinner-border text-success" role="status"></div>
+</div>
+
+<script>
+    setTimeout(function () {
+        window.location.href = '@Url.Action("Login", "Account")';
+    }, 5000); 
+</script>

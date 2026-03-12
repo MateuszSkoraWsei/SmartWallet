@@ -1,0 +1,65 @@
+@model List<SmartWallet.Models.Transactions>;
+@{
+    ViewData["Title"] = "Admin Transactions";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<style>
+    tbody>tr:hover{
+        opacity : 0.7;
+        cursor: pointer;
+    }
+</style>
+
+<h1 class="d-none">Transakcje</h1>
+<div class="btn-group shadow-sm">
+    <a asp-action="Transactions" asp-route-status=""
+       class="btn btn-outline-secondary @(ViewBag.CurrentFilter == null ? "active" : "")">
+        Wszystkie
+    </a>
+    <a asp-action="Transactions" asp-route-status="@TransactionStatus.Pending"
+       class="btn btn-outline-warning @(ViewBag.CurrentFilter == TransactionStatus.Pending ? "active" : "")">
+        <i class="bi bi-clock-history"></i> Oczekujące
+    </a>
+    <a asp-action="Transactions" asp-route-status="@TransactionStatus.Completed"
+       class="btn btn-outline-success @(ViewBag.CurrentFilter == TransactionStatus.Completed ? "active" : "")">
+        <i class="bi bi-check-circle"></i> Zakończone
+    </a>
+    <a asp-action="Transactions" asp-route-status="@TransactionStatus.Cancelled"
+       class="btn btn-outline-danger @(ViewBag.CurrentFilter == TransactionStatus.Cancelled ? "active" : "")">
+        <i class="bi bi-x-circle"></i> Anulowane
+    </a>
+</div>
+<div class="card shadow border-0 mb-4">
+    <div class="card-header bg-white py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Lista Transakcji</h6>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-light">
+                    <tr>
+                        <th>Data</th>
+                        <th>Kwota</th>
+                        <th>Nadawca</th>
+                        <th>Odbiorca</th>
+                        <th>Status</th>
+                        <th class="text-end pe-4">Akcje</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Transactions transaction in Model)
+                    {
+                        <tr style="cursor:pointer;" onclick="window.location.href='@Url.Action("TransactionDetails","Admin", new { id = transaction.TransactionID })'">
+                            <td>@transaction.Date.ToString("g")</td>
+                            <td>@transaction.Amount.ToString("C")</td>
+                            <td>@transaction.Sender.Email</td>
+                            <td>@transaction.Receiver.Email</td>
+                            <td>@transaction.Status</td>
+                            <td class="text-end pe-4"><button class="btn btn-sm btn-outline-primary">Szczegóły</button></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

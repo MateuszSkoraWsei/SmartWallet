@@ -1,0 +1,54 @@
+﻿@model SmartWallet.Models.ViewModels.EditProfileViewModel
+
+@{
+    Layout = "_DashboardLayout";
+}
+<div class="container mt-4">
+    <div class="card shadow-sm p-4">
+        <h2>Edytuj swój profil</h2>
+        <hr />
+
+        <form asp-action="EditProfile" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="row">
+                <div class="col-md-4 text-center mb-3">
+                    <img src="@(Model.ExistingAvatarUrl ?? "/uploads/avatars/Default_Profile_Picture.jpg")"
+                         alt="Avatar" class="rounded-circle img-thumbnail" style="width: 150px; height: 150px; object-fit: cover;">
+                    <div class="mt-2">
+                        <label asp-for="AvatarFile" class="form-label">Zmień zdjęcie</label>
+                        <input asp-for="AvatarFile" class="form-control form-control-sm" type="file" />
+                        <span asp-validation-for="AvatarFile" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-8">
+                    <div class="mb-3">
+                        <label asp-for="Name" class="form-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Surname" class="form-label"></label>
+                        <input asp-for="Surname" class="form-control" />
+                        <span asp-validation-for="Surname" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Address" class="form-label"></label>
+                        <input asp-for="Address" class="form-control" />
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Gender" class="form-label"></label>
+                        <select asp-for="Gender" asp-items="Html.GetEnumSelectList<SmartWallet.Models.GenderType>()" class="form-select"></select>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a asp-action="PersonalData" class="btn btn-secondary">Anuluj</a>
+                        <button type="submit" class="btn btn-primary shadow-sm">Zapisz zmiany</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
