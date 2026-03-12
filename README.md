@@ -53,4 +53,20 @@ Projekt korzysta z LocalDB do celów deweloperskich, ale jest gotowy na SQL Serv
    "ConnectionStrings": {
      "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=SmartWallet;Trusted_Connection=True;MultipleActiveResultSets=true"
    }
+
+📧 Konfiguracja weryfikacji E-mail (Azure Communication Services)
+Aplikacja integruje się z usługą Azure Communication Services w celu wysyłki potwierdzeń transakcji oraz weryfikacji kont.
+
+Bezpieczeństwo danych (Secrets Management)
+Zgodnie z najlepszymi praktykami bezpieczeństwa, dane dostępowe do infrastruktury Azure (ConnectionString oraz SenderEmail) nie są częścią repozytorium. Są one przechowywane lokalnie przy użyciu mechanizmu Secrets Manager.
+
+Jak uruchomić wysyłkę e-mail?
+Jeśli chcesz przetestować pełną integrację z Azure, musisz dodać własne parametry do pliku secrets.json (lub appsettings.json lokalnie):
+   ```json
+   "AzureCommunicationService": {
+     "ConnectionString": "Twój_ConnectionString_z_portalu_Azure",
+     "SenderEmail": "donotreply@twoja-zweryfikowana-domena.azurecomm.net"
+   }
+
+ 
 *Projekt stworzony jako pokaz umiejętności technicznych w ekosystemie .NET.*
