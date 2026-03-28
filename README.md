@@ -29,7 +29,7 @@ Aplikacja implementuje system dwuetapowej weryfikacji płatności:
 ## ⚙️ Instrukcja Uruchomienia
 1. Sklonuj repozytorium.
     ```
-   git clone https://github.com/twoj-uzytkownik/smartwallet.git
+   git clone https://github.com/twoj-uzytkownik/smartwallet.git](https://github.com/MateuszSkoraWsei/SmartWallet.git
    cd smartwallet
    ```
 2. Zbuduj i uruchom projekt:
