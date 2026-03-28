@@ -28,8 +28,17 @@ Aplikacja implementuje system dwuetapowej weryfikacji płatności:
 
 ## ⚙️ Instrukcja Uruchomienia
 1. Sklonuj repozytorium.
-2. Projekt posiada wbudowany **Auto-Migration & Seeding** – wystarczy uruchomić aplikację, a baza danych i role zostaną utworzone automatycznie.
-3. **Dane do logowania (Test Admin):**
+    ```
+   git clone https://github.com/twoj-uzytkownik/smartwallet.git
+   cd smartwallet
+   ```
+2. Zbuduj i uruchom projekt:
+    ```
+    dotnet build
+    dotnet run
+   ```
+3. Projekt posiada wbudowany **Auto-Migration & Seeding** – wystarczy uruchomić aplikację, a baza danych i role zostaną utworzone automatycznie.
+4. **Dane do logowania (Test Admin):**
    - **Login:** `admin@smartwallet.pl`
    - **Hasło:** `Admin123!`
    - *(Admin posiada doładowane konto testowe na start)*
